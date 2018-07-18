@@ -66,11 +66,5 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			throw new NotImplementedException();
 		}
-
-		//-------------DELETE-------------
-		public static void Main(String[] args)
-		{
-			
-		}
 	}
 }

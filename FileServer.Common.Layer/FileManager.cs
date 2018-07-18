@@ -17,10 +17,8 @@ namespace FileServer.Common.Layer
 
 		public FileManager()
 		{
-			FileExtension = ConfigurationManager.AppSettings.Get("jsonFile");
 			FilePath = Environment.GetEnvironmentVariable("VUELING_HOME") 
-				+ "AlumnosWebApi" 
-				+ FileExtension;
+				+ "AlumnosWebApi.json";
 		}
 
 		public void CreateFile()
