@@ -1,8 +1,10 @@
 ﻿using FileServer.Common.Entities;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +17,8 @@ namespace FileServer.Common.Layer
 
 		public FileManager(int filePathType)
 		{
-			//FileExtension = ConfigurationManager.AppSettings.Get("jsonFile");
-			//FilePath = FilePathManager.PathSelector(filePathType) + FileExtension;
+			FileExtension = ConfigurationManager.AppSettings.Get("jsonFile");
+			FilePath = Environment.GetEnvironmentVariable("VUELING_HOME") + "AlumnosWebApi" + FileExtension;
 		}
 
 		public void CreateFile()
