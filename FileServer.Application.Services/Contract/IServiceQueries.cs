@@ -9,6 +9,6 @@ namespace FileServer.Application.Services.Contract
 	public interface IServiceQueries<T>
 	{
 		List<T> GetAll();
-		List<T> GetByID();
+		List<T> GetByID(int id);
 	}
 }

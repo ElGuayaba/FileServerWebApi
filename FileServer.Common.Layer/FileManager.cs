@@ -70,7 +70,7 @@ namespace FileServer.Common.Layer
 
 		public Alumno ProcessAlumnoData(Alumno alumno)
 		{
-			List<Alumno> jsonNodes = null;
+			List<Alumno> jsonNodes;
 			try
 			{
 				CreateFile();
@@ -84,7 +84,7 @@ namespace FileServer.Common.Layer
 
 				var resultJSONList = JsonConvert.SerializeObject(jsonNodes, Formatting.Indented);
 				WriteToFile(resultJSONList);
-				return JsonConvert.DeserializeObject<List<Alumno>>(RetrieveData()).Last();
+				return Deserialize(RetrieveData()).Last();
 			}
 			catch (Exception ex)
 			{

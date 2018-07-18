@@ -9,6 +9,6 @@ namespace FileServer.Infrastructure.Repository.Contract
 	public interface IRepositoryQueries<T>
 	{
 		List<T> GetAll();
-		List<T> GetByID();
+		List<T> GetByID(int id);
 	}
 }

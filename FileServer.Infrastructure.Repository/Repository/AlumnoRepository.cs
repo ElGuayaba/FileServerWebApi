@@ -18,19 +18,43 @@ namespace FileServer.Infrastructure.Repository.Repository
 			fm.CreateFile();
 		}
 
-		public Alumno Add(Alumno model)
+		public Alumno Add(Alumno alumno)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				return fm.ProcessAlumnoData(alumno);
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}			
 		}
 
 		public List<Alumno> GetAll()
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var data = fm.RetrieveData();
+				return fm.Deserialize(data);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
-		public List<Alumno> GetByID()
+		public List<Alumno> GetByID(int id)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var data = fm.RetrieveData();
+				return fm.Deserialize(data).Where(alu => alu.Id == id).ToList();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 
 		public int Remove(int id)
@@ -41,6 +65,12 @@ namespace FileServer.Infrastructure.Repository.Repository
 		public Alumno Update(Alumno model)
 		{
 			throw new NotImplementedException();
+		}
+
+		//-------------DELETE-------------
+		public static void Main(String[] args)
+		{
+			
 		}
 	}
 }
