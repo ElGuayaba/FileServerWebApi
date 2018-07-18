@@ -15,10 +15,12 @@ namespace FileServer.Common.Layer
 		public string FileExtension { get; set; }
 		public string FilePath { get; set; }
 
-		public FileManager(int filePathType)
+		public FileManager()
 		{
 			FileExtension = ConfigurationManager.AppSettings.Get("jsonFile");
-			FilePath = Environment.GetEnvironmentVariable("VUELING_HOME") + "AlumnosWebApi" + FileExtension;
+			FilePath = Environment.GetEnvironmentVariable("VUELING_HOME") 
+				+ "AlumnosWebApi" 
+				+ FileExtension;
 		}
 
 		public void CreateFile()
@@ -73,7 +75,7 @@ namespace FileServer.Common.Layer
 			{
 				CreateFile();
 				var data = RetrieveData();
-				jsonNodes = JsonConvert.DeserializeObject<List<Alumno>>(data);
+				jsonNodes = Deserialize(data);
 				if (jsonNodes == null)
 				{
 					jsonNodes = new List<Alumno>();
@@ -88,6 +90,11 @@ namespace FileServer.Common.Layer
 			{
 				throw ex;
 			}
+		}
+
+		public List<Alumno> Deserialize(string jsondata)
+		{
+			return JsonConvert.DeserializeObject<List<Alumno>>(jsondata);
 		}
 	}
 }
