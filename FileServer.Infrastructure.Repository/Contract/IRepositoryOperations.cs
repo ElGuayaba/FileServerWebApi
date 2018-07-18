@@ -10,6 +10,6 @@ namespace FileServer.Infrastructure.Repository.Contract
 	{
 		T Add(T model);
 		T Update(T model);
-		int Remove(int id);
+		bool Remove(int id);
 	}
 }

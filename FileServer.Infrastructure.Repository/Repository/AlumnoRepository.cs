@@ -26,7 +26,6 @@ namespace FileServer.Infrastructure.Repository.Repository
 			}
 			catch (Exception)
 			{
-
 				throw;
 			}			
 		}
@@ -57,9 +56,28 @@ namespace FileServer.Infrastructure.Repository.Repository
 			}
 		}
 
-		public int Remove(int id)
+		public bool Remove(int id)
 		{
-			throw new NotImplementedException();
+			List<Alumno> jsonNodes;
+			try
+			{
+				var data = fm.RetrieveData();
+				jsonNodes = fm.Deserialize(data);
+				if (jsonNodes == null)
+				{
+					jsonNodes = new List<Alumno>();
+				}
+				Alumno alumno = jsonNodes.Where<Alumno>(alu => alu.Id == id).First();
+				jsonNodes.Remove(alumno);
+
+				var resultJSONList = fm.SerializeIndented(jsonNodes);
+				fm.WriteToFile(resultJSONList);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 
 		public Alumno Update(Alumno model)

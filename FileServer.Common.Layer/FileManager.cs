@@ -80,7 +80,7 @@ namespace FileServer.Common.Layer
 				}
 				jsonNodes.Add(alumno);
 
-				var resultJSONList = JsonConvert.SerializeObject(jsonNodes, Formatting.Indented);
+				var resultJSONList = SerializeIndented(jsonNodes);
 				WriteToFile(resultJSONList);
 				return Deserialize(RetrieveData()).Last();
 			}
@@ -88,6 +88,11 @@ namespace FileServer.Common.Layer
 			{
 				throw ex;
 			}
+		}
+
+		public string SerializeIndented(List<Alumno> jsonNodes)
+		{
+			return JsonConvert.SerializeObject(jsonNodes, Formatting.Indented);
 		}
 
 		public List<Alumno> Deserialize(string jsondata)

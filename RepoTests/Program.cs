@@ -35,7 +35,11 @@ namespace RepoTests
 				Console.WriteLine(JsonConvert.SerializeObject(alu,Formatting.Indented));
 			Console.WriteLine();
 			Alumno output = alumnoRepository.GetByID(2).First<Alumno>();
-			Console.Write(JsonConvert.SerializeObject(output, Formatting.Indented));
+			Console.WriteLine(JsonConvert.SerializeObject(output, Formatting.Indented));
+			alumnoRepository.Remove(1);
+			foreach (Alumno alu in alumnoRepository.GetAll())
+				Console.WriteLine(JsonConvert.SerializeObject(alu, Formatting.Indented));
+			Console.WriteLine();
 			Console.ReadLine();
 		}
 	}
