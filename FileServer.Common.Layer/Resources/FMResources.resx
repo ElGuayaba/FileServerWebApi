@@ -117,10 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Argument" xml:space="preserve">
+    <value>Argumento No Nulo Inválido</value>
+    <comment>Respuesta a la excepción ArgumentException</comment>
+  </data>
+  <data name="ArgumentNull" xml:space="preserve">
+    <value>Argumento Nulo</value>
+    <comment>Respuesta a la excepción ArgumentNullException</comment>
+  </data>
   <data name="FileName" xml:space="preserve">
     <value>AlumnosWebApi.json</value>
   </data>
   <data name="FilePath" xml:space="preserve">
     <value>C:/Users/formacion/AppData/Vueling/</value>
+  </data>
+  <data name="IO" xml:space="preserve">
+    <value>Error de Lectura/Escritura</value>
+    <comment>Respuesta a la excepción IOException</comment>
+  </data>
+  <data name="NotFound" xml:space="preserve">
+    <value>Directorio No Encontrado</value>
+    <comment>Respuesta a la excepción DirectoryNotFoundException</comment>
+  </data>
+  <data name="NotSupported" xml:space="preserve">
+    <value>Operación No Soportada</value>
+    <comment>Respuesta a la excepción NotSupportedException</comment>
+  </data>
+  <data name="PathTooLong" xml:space="preserve">
+    <value>Ruta Excesivamente Larga</value>
+    <comment>Respuesta a la excepción PathTooLongException</comment>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Acceso no autorizado</value>
+    <comment>Respuesta a la excepción UnauthorizedAccessException</comment>
   </data>
 </root>

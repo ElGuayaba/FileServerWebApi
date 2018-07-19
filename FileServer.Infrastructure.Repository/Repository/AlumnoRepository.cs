@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
+using System.Resources;
 
 namespace FileServer.Infrastructure.Repository.Repository
 {
@@ -24,9 +23,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 			{
 				return fm.ProcessAlumnoData(alumno);
 			}
-			catch (Exception)
+			catch (VuelingException ex)
 			{
-				throw;
+				throw new VuelingException(Resources.AddError, ex);
 			}			
 		}
 
@@ -37,9 +36,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 				var data = fm.RetrieveData();
 				return fm.Deserialize(data);
 			}
-			catch (Exception)
+			catch (VuelingException ex)
 			{
-				throw;
+				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
 
@@ -50,9 +49,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 				var data = fm.RetrieveData();
 				return fm.Deserialize(data).Where(alu => alu.Id == id).ToList();
 			}
-			catch (Exception)
+			catch (VuelingException ex)
 			{
-				throw;
+				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
 
@@ -74,9 +73,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 				fm.WriteToFile(resultJSONList);
 				return true;
 			}
-			catch (Exception ex)
+			catch (VuelingException ex)
 			{
-				throw ex;
+				throw new VuelingException(Resources.DeleteError, ex);
 			}
 		}
 
@@ -106,9 +105,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 			{
 				return null;
 			}
-			catch (Exception ex)
+			catch (VuelingException ex)
 			{
-				throw ex;
+				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
 	}

@@ -61,6 +61,24 @@ namespace FileServer.Common.Layer.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Argumento No Nulo Inválido.
+        /// </summary>
+        internal static string Argument {
+            get {
+                return ResourceManager.GetString("Argument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Argumento Nulo.
+        /// </summary>
+        internal static string ArgumentNull {
+            get {
+                return ResourceManager.GetString("ArgumentNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a AlumnosWebApi.json.
         /// </summary>
         internal static string FileName {
@@ -75,6 +93,51 @@ namespace FileServer.Common.Layer.Resources {
         internal static string FilePath {
             get {
                 return ResourceManager.GetString("FilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de Lectura/Escritura.
+        /// </summary>
+        internal static string IO {
+            get {
+                return ResourceManager.GetString("IO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Directorio No Encontrado.
+        /// </summary>
+        internal static string NotFound {
+            get {
+                return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Operación No Soportada.
+        /// </summary>
+        internal static string NotSupported {
+            get {
+                return ResourceManager.GetString("NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ruta Excesivamente Larga.
+        /// </summary>
+        internal static string PathTooLong {
+            get {
+                return ResourceManager.GetString("PathTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Acceso no autorizado.
+        /// </summary>
+        internal static string Unauthorized {
+            get {
+                return ResourceManager.GetString("Unauthorized", resourceCulture);
             }
         }
     }
