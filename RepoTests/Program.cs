@@ -27,19 +27,44 @@ namespace RepoTests
 				Apellidos = "Alamo",
 				Dni = "321"
 			};
+			Alumno alumno2 = new Alumno
+			{
+				Id = 3,
+				Nombre = "Pepe",
+				Apellidos = "Popo",
+				Dni = "666"
+			};
+			Alumno alumno3 = new Alumno
+			{
+				Id = 2,
+				Nombre = "Invader",
+				Apellidos = "Popo",
+				Dni = "666"
+			};
+
 			AlumnoRepository alumnoRepository = new AlumnoRepository();
 			alumnoRepository.Add(alumno);
 			alumnoRepository.Add(alumno1);
+			alumnoRepository.Add(alumno2);
 			Console.Write("GetAll: ");
 			foreach (Alumno alu in alumnoRepository.GetAll())
 				Console.WriteLine(JsonConvert.SerializeObject(alu,Formatting.Indented));
-			Console.WriteLine();
+			Console.WriteLine("------------");
+
 			Alumno output = alumnoRepository.GetByID(2).First<Alumno>();
 			Console.WriteLine(JsonConvert.SerializeObject(output, Formatting.Indented));
+			Console.WriteLine("------------");
+		
 			alumnoRepository.Remove(1);
 			foreach (Alumno alu in alumnoRepository.GetAll())
 				Console.WriteLine(JsonConvert.SerializeObject(alu, Formatting.Indented));
-			Console.WriteLine();
+			Console.WriteLine("------------");
+
+			Alumno retorno = alumnoRepository.Update(alumno3);
+			Console.WriteLine("Nombre Retorno: " + retorno.Nombre);
+			foreach (Alumno alu in alumnoRepository.GetAll())
+				Console.WriteLine(JsonConvert.SerializeObject(alu, Formatting.Indented));
+			Console.WriteLine("------------");
 			Console.ReadLine();
 		}
 	}

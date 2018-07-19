@@ -80,9 +80,32 @@ namespace FileServer.Infrastructure.Repository.Repository
 			}
 		}
 
-		public Alumno Update(Alumno model)
+		public Alumno Update(Alumno alumno)
 		{
-			throw new NotImplementedException();
+			List<Alumno> jsonNodes;
+			int index;
+			try
+			{
+				var data = fm.RetrieveData();
+				jsonNodes = fm.Deserialize(data);
+				if (jsonNodes == null)
+				{
+					jsonNodes = new List<Alumno>();
+				}
+				Alumno toRemove = jsonNodes.Where<Alumno>(alu => alu.Id == alumno.Id).First();
+				index = jsonNodes.IndexOf(toRemove);
+				jsonNodes.Remove(toRemove);
+				jsonNodes.Insert(index, alumno);
+
+				var resultJSONList = fm.SerializeIndented(jsonNodes);
+				fm.WriteToFile(resultJSONList);
+
+				return fm.Deserialize(fm.RetrieveData())[index];
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
 		}
 	}
 }
