@@ -17,8 +17,7 @@ namespace FileServer.Common.Layer
 
 		public FileManager()
 		{
-			FilePath = Environment.GetEnvironmentVariable("VUELING_HOME") 
-				+ "AlumnosWebApi.json";
+			FilePath = "C:/Users/formacion/source/repos/FileServerWebApi/RepoTests/bin/Debug/AlumnosWebApi.json";
 		}
 
 		public void CreateFile()

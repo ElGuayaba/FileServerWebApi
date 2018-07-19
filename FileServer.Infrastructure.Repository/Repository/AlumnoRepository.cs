@@ -102,6 +102,10 @@ namespace FileServer.Infrastructure.Repository.Repository
 
 				return fm.Deserialize(fm.RetrieveData())[index];
 			}
+			catch (InvalidOperationException ex)
+			{
+				return null;
+			}
 			catch (Exception ex)
 			{
 				throw ex;

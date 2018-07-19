@@ -25,16 +25,29 @@ namespace FileServer.Facade.WebApi.Controllers
 		// GET: api/Alumno
 		public IQueryable<Alumno> Get()
 		{
-			throw new NotImplementedException();
-			//return alumnoService.GetAll();
+			try
+			{
+				return iService.GetAll().AsQueryable<Alumno>();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
 		}
 
 		// GET: api/Alumno/5
 		public IHttpActionResult Get(int id)
 		{
-			throw new NotImplementedException();
-			//return alumnoService.GetByID(id);
-			//Rerotna ok alumno
+			try
+			{
+				Alumno alumno = iService.GetByID(id).First();
+				return Ok(alumno);
+			}
+			catch (InvalidOperationException ex)
+			{
+				return NotFound();
+			}
 		}
 
 		// POST: api/Alumno
@@ -60,19 +73,50 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// PUT: api/Alumno/5
-		public bool Put(Alumno alumno)
+		public IHttpActionResult Put(int id, Alumno alumno)
 		{
-			throw new NotImplementedException();
-			//alumnoService.Update(alumno);
-			//return true;
-			//Devuelce status code no content
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			if (id != alumno.Id)
+			{
+				return BadRequest();
+			}
+			try
+			{
+				alumno = iService.Update(alumno);
+				if (alumno == null)
+				{
+					return NotFound();
+				}
+				else
+				{
+					return StatusCode(HttpStatusCode.NoContent);
+				}
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
 		}
 
 		// DELETE: api/Alumno/5
 		public IHttpActionResult Delete(int id)
 		{
-			throw new NotImplementedException();
-			//return alumnoService.Remove(id);
+			Alumno alumno;
+			try
+			{
+				alumno = iService.GetByID(id).First();
+			}
+			catch (InvalidOperationException ex)
+			{
+				return NotFound();
+			}
+			//Manejar la otra excepción
+			iService.Remove(alumno.Id);
+			return Ok(alumno);
 		}
 	}
 }
