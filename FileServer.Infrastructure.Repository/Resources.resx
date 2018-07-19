@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddError" xml:space="preserve">
-    <value>Error al añadir el objeto en el repositorio.</value>
+    <value>Error al añadir el objeto en el fichero de almacenamiento.</value>
   </data>
   <data name="DeleteError" xml:space="preserve">
     <value>Error al eliminar el objeto.</value>

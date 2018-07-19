@@ -202,7 +202,7 @@ namespace FileServer.Common.Layer
 				WriteToFile(resultJSONList);
 				return Deserialize(RetrieveData()).Last();
 			}
-			catch (InvalidOperationException ex)
+			catch (InvalidOperationException)
 			{
 				return null;
 			}

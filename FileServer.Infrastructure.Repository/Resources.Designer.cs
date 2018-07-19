@@ -61,7 +61,7 @@ namespace FileServer.Infrastructure.Repository {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Error al añadir el objeto en el repositorio..
+        ///   Busca una cadena traducida similar a Error al añadir el objeto en el fichero de almacenamiento..
         /// </summary>
         internal static string AddError {
             get {

@@ -59,5 +59,41 @@ namespace FileServer.Application.Services {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al añadir el objeto en el repositorio..
+        /// </summary>
+        internal static string AddError {
+            get {
+                return ResourceManager.GetString("AddError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al eliminar el objeto..
+        /// </summary>
+        internal static string DeleteError {
+            get {
+                return ResourceManager.GetString("DeleteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al obtener datos del repositorio.
+        /// </summary>
+        internal static string GetError {
+            get {
+                return ResourceManager.GetString("GetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error al actualizar el objeto..
+        /// </summary>
+        internal static string UpdateError {
+            get {
+                return ResourceManager.GetString("UpdateError", resourceCulture);
+            }
+        }
     }
 }
