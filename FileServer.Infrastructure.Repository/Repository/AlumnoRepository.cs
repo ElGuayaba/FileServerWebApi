@@ -56,7 +56,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 			try
 			{
 				var data = fm.RetrieveData();
-				return fm.Deserialize(data);
+				return Json.DeserializeAlumnos(data);
 			}
 			catch (VuelingException ex)
 			{
@@ -77,7 +77,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 			try
 			{
 				var data = fm.RetrieveData();
-				return fm.Deserialize(data).Where(alu => alu.Id == id).ToList();
+				return Json.DeserializeAlumnos(data).Where(alu => alu.Id == id).ToList();
 			}
 			catch (VuelingException ex)
 			{
@@ -100,7 +100,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 			try
 			{
 				var data = fm.RetrieveData();
-				jsonNodes = fm.Deserialize(data);
+				jsonNodes = Json.DeserializeAlumnos(data);
 				if (jsonNodes == null)
 				{
 					jsonNodes = new List<Alumno>();
@@ -108,7 +108,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 				Alumno alumno = jsonNodes.Where<Alumno>(alu => alu.Id == id).First();
 				jsonNodes.Remove(alumno);
 
-				var resultJSONList = fm.SerializeIndented(jsonNodes);
+				var resultJSONList = Json.SerializeIndented(jsonNodes);
 				fm.WriteToFile(resultJSONList);
 				return true;
 			}
@@ -133,7 +133,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 			try
 			{
 				var data = fm.RetrieveData();
-				jsonNodes = fm.Deserialize(data);
+				jsonNodes = Json.DeserializeAlumnos(data);
 				if (jsonNodes == null)
 				{
 					jsonNodes = new List<Alumno>();
@@ -143,10 +143,10 @@ namespace FileServer.Infrastructure.Repository.Repository
 				jsonNodes.Remove(toRemove);
 				jsonNodes.Insert(index, alumno);
 
-				var resultJSONList = fm.SerializeIndented(jsonNodes);
+				var resultJSONList = Json.SerializeIndented(jsonNodes);
 				fm.WriteToFile(resultJSONList);
 
-				return fm.Deserialize(fm.RetrieveData())[index];
+				return Json.DeserializeAlumnos(fm.RetrieveData())[index];
 			}
 			catch (InvalidOperationException)
 			{
