@@ -191,16 +191,16 @@ namespace FileServer.Common.Layer
 			{
 				CreateFile();
 				var data = RetrieveData();
-				jsonNodes = Deserialize(data);
+				jsonNodes = Json.DeserializeAlumnos(data);
 				if (jsonNodes == null)
 				{
 					jsonNodes = new List<Alumno>();
 				}
 				jsonNodes.Add(alumno);
 
-				var resultJSONList = SerializeIndented(jsonNodes);
+				var resultJSONList = Json.SerializeIndented(jsonNodes);
 				WriteToFile(resultJSONList);
-				return Deserialize(RetrieveData()).Last();
+				return Json.DeserializeAlumnos(RetrieveData()).Last();
 			}
 			catch (InvalidOperationException)
 			{
@@ -210,30 +210,6 @@ namespace FileServer.Common.Layer
 			{
 				throw new VuelingException(FMResources.ArgumentNull,ex);
 			}
-		}
-
-		/// <summary>
-		/// Serializes Alumno objects in a List to json (indented) format.
-		/// </summary>
-		/// <param name="jsonNodes">The list to be serialized</param>
-		/// <returns>
-		/// The string of serialized objects
-		/// </returns>
-		public string SerializeIndented(List<Alumno> jsonNodes)
-		{
-			return JsonConvert.SerializeObject(jsonNodes, Formatting.Indented);
-		}
-
-		/// <summary>
-		/// Deserializes the specified jsondata.
-		/// </summary>
-		/// <param name="jsondata">A string in json format.</param>
-		/// <returns>
-		/// A list of Alumno objects.
-		/// </returns>
-		public List<Alumno> Deserialize(string jsondata)
-		{
-			return JsonConvert.DeserializeObject<List<Alumno>>(jsondata);
 		}
 	}
 }

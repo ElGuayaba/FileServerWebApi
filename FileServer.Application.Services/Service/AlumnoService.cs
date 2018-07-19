@@ -2,10 +2,8 @@
 using FileServer.Common.Entities;
 using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Infrastructure.Repository.Repository;
-using System;
 using System.Collections.Generic;
 using FileServer.Common.Layer;
-using System.Resources;
 
 namespace FileServer.Application.Services.Service
 {
