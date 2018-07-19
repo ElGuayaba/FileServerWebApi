@@ -1,7 +1,7 @@
 ﻿using FileServer.Common.Entities;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Resources;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -12,12 +12,13 @@ namespace FileServer.Common.Layer
 {
 	public class FileManager
 	{
-		public string FileExtension { get; set; }
 		public string FilePath { get; set; }
+		public string FileName { get; set; }
 
 		public FileManager()
 		{
-			FilePath = "C:/Users/formacion/source/repos/FileServerWebApi/RepoTests/bin/Debug/AlumnosWebApi.json";
+			FileName = Resources.FMResources.FileName;
+			FilePath = Resources.FMResources.FilePath + FileName;
 		}
 
 		public void CreateFile()
