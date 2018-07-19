@@ -70,6 +70,15 @@ namespace FileServer.Application.Services {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Argumento Nulo..
+        /// </summary>
+        internal static string ArgumentNull {
+            get {
+                return ResourceManager.GetString("ArgumentNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al eliminar el objeto..
         /// </summary>
         internal static string DeleteError {
@@ -84,6 +93,15 @@ namespace FileServer.Application.Services {
         internal static string GetError {
             get {
                 return ResourceManager.GetString("GetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de HTTP Request..
+        /// </summary>
+        internal static string HttpReq {
+            get {
+                return ResourceManager.GetString("HttpReq", resourceCulture);
             }
         }
         

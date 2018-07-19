@@ -120,11 +120,19 @@
   <data name="AddError" xml:space="preserve">
     <value>Error al añadir el objeto en el repositorio.</value>
   </data>
+  <data name="ArgumentNull" xml:space="preserve">
+    <value>Argumento Nulo.</value>
+    <comment>Respuesta a la excepción ArgumentNullException</comment>
+  </data>
   <data name="DeleteError" xml:space="preserve">
     <value>Error al eliminar el objeto.</value>
   </data>
   <data name="GetError" xml:space="preserve">
     <value>Error al obtener datos del repositorio</value>
+  </data>
+  <data name="HttpReq" xml:space="preserve">
+    <value>Error de HTTP Request.</value>
+    <comment>Respuesta a la excepción HttpRequestException</comment>
   </data>
   <data name="UpdateError" xml:space="preserve">
     <value>Error al actualizar el objeto.</value>
