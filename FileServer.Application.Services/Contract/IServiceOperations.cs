@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FileServer.Application.Services.Contract
 {
-	public interface IServiceOperations<T>
+	public interface IServiceOperations<T> : IServiceQueries<T>
 	{
 		T Add(T model);
 		T Update(T model);
-		int Remove(int id);
+		bool Remove(int id);
 	}
 }

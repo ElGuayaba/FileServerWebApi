@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileServer.Infrastructure.Repository.Contract
 {
-	public interface IRepositoryOperations<T>
+	public interface IRepositoryOperations<T> : IRepositoryQueries<T>
 	{
 		T Add(T model);
 		T Update(T model);

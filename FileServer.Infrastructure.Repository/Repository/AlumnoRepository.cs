@@ -9,7 +9,7 @@ using FileServer.Common.Layer;
 
 namespace FileServer.Infrastructure.Repository.Repository
 {
-	public class AlumnoRepository : IRepositoryQueries<Alumno>, IRepositoryOperations<Alumno>
+	public class AlumnoRepository : IRepositoryOperations<Alumno>
 	{
 		private FileManager fm;
 		public AlumnoRepository()
