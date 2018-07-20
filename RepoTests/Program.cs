@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using FileServer.Application.Services.Service;
+using Serilog;
+using Serilog.Configuration;
+using System.Reflection;
+using FileServer.Common.Layer;
 
 namespace RepoTests
 {
@@ -15,6 +19,20 @@ namespace RepoTests
 	{
 		static void Main(string[] args)
 		{
+			LogManager.LogDebug("Creando servicio");
+			AlumnoService alumnoService = new AlumnoService();
+			LogManager.LogDebug("Creando coleccion de alumnos");
+			List<Alumno> alumnos;
+			LogManager.LogDebug("Obteniengo datos de la webapi");
+			alumnos = HttpApiController.GetCall().Result;
+			Console.Write("GetAll: ");
+			foreach (Alumno alu in alumnos)
+			{
+				LogManager.LogInfo("Imprimiendo Alumnos");
+				Console.WriteLine(JsonConvert.SerializeObject(alu, Formatting.Indented));
+			}
+			Console.WriteLine("------------");
+			//Log.CloseAndFlush();
 			//Alumno alumno = new Alumno
 			//{
 			//	Id = 1,
@@ -44,18 +62,10 @@ namespace RepoTests
 			//	Dni = "666"
 			//};
 
-			AlumnoService alumnoService = new AlumnoService();
-			List<Alumno> alumnos;
-			alumnos = HttpApiController.GetCall().Result;
-			Console.Write("GetAll: ");
-			foreach (Alumno alu in alumnos)
-				Console.WriteLine(JsonConvert.SerializeObject(alu,Formatting.Indented));
-			Console.WriteLine("------------");
-
 			//Alumno output = alumnoRepository.GetByID(2).First<Alumno>();
 			//Console.WriteLine(JsonConvert.SerializeObject(output, Formatting.Indented));
 			//Console.WriteLine("------------");
-		
+
 			//alumnoRepository.Remove(1);
 			//foreach (Alumno alu in alumnoRepository.GetAll())
 			//	Console.WriteLine(JsonConvert.SerializeObject(alu, Formatting.Indented));

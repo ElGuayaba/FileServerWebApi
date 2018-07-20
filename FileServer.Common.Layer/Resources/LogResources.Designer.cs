@@ -59,5 +59,14 @@ namespace FileServer.Common.Layer.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a C:/Users/formacion/AppData/Vueling/.
+        /// </summary>
+        internal static string FilePath {
+            get {
+                return ResourceManager.GetString("FilePath", resourceCulture);
+            }
+        }
     }
 }

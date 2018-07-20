@@ -10,9 +10,18 @@ using System.Text;
 
 namespace FileServer.Application.Services
 {
+	/// <summary>
+	/// Controller in charge of getting information from a webapi
+	/// </summary>
 	public class HttpApiController
 	{
+		/// <summary>
+		/// The client
+		/// </summary>
 		static HttpClient client;
+		/// <summary>
+		/// Initializes the <see cref="HttpApiController"/> class.
+		/// </summary>
 		static HttpApiController()
 		{
 			client = new HttpClient
@@ -21,8 +30,15 @@ namespace FileServer.Application.Services
 			};
 		}
 
+		/// <summary>
+		/// Gets the call.
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="VuelingException">
+		/// </exception>
 		public static async Task<List<Alumno>> GetCall()
 		{
+			LogManager.LogDebug("Haciendo el get");
 			IEnumerable<Alumno> listaAlumnos = null;
 			try
 			{
@@ -44,6 +60,11 @@ namespace FileServer.Application.Services
 			return listaAlumnos.ToList();
 		}
 
+		/// <summary>
+		/// Añadirs the alumnos.
+		/// </summary>
+		/// <param name="alumno">The alumno.</param>
+		/// <exception cref="VuelingException"></exception>
 		public static async void AñadirAlumnos(Alumno alumno)
 		{
 			var alumnoJSON = Json.SerializeIndented(alumno);
