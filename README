@@ -1,0 +1,31 @@
+Este proyecto corresponde a la solución parcial del problema planteado para el examen 1 del curso de ASP.NET de Vueling.
+
+Para compilarlo, basta con descargar el repositorio y seguir los siguientes pasos:
+	1. En la carpeta FileServer.Common.Layer abrir el archivo de configuración
+		app.config y especificar la ruta donde desea guardar los datos en la
+		variable de configuración de nombre FilePath
+	2. Abrir el archivo .sln con Visual Studio (2017 de preferencia)
+	3. Compilar
+	4. Hacer click en Iniciar IIS
+
+En su estado actual, la solución realiza las siguientes operaciones:
+-Levanta una web API 
+-Inmediatamente, lee los datos servidos por las web apis dadas en el enunciado del examen
+-Persiste dichos datos en un fichero en formato JSON.
+-Continúa corriendo la web api
+-Utiliza un sistema de tokens para filtrar los usuarios que acceden a los datos
+a través de httprequests
+
+La implementación de la solución se hizo siguiendo los patrones
+de la arquitectura DDD ajustándolos a la escala del problema. Asimismo,
+todo el desarrollo se hizo siguiendo los principios SOLID de programación
+y los lineamientos establecidos en el libro de Clean Code, siempre tomando
+en cuenta la escalabilidad y portabilidad del software desarrollado.
+
+En el proyecto puede encontrar una imagen .jpg con un diagrama que
+detalla en lineas generales el modelo de arquitectura implementado.
+Esta lleva el nombre de VuelingDiagram.jpg
+
+Para las pruebas del servicio, se hizo uso de la plataforma Postman.
+En el siguiente enlace puede ver una versión publicada de las pruebas ejecutadas:
+https://web.postman.co/collections/4824606-6602ee14-f439-48ee-9bc9-6401964d78b9?workspace=91b70667-4281-4771-8407-7c2ebb0ee779#c3767bde-30fe-47a4-886e-43ffea1ff83d

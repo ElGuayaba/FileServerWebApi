@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FileServer.Common.Layer.Resources;
@@ -9,60 +10,42 @@ namespace FileServer.Common.Layer
 {
 	public static class LogManager
 	{
-		public static void LogDebug(string message)
+		public static void LogDebug()
 		{
 			using (var Logger = new LoggerConfiguration()
 						.MinimumLevel.Debug()
-						.WriteTo.File(@LogResources.FilePath
-						+ Assembly.GetCallingAssembly().GetName().Name + ".Trace.json")
+						.WriteTo.File(@Properties.Settings.Default.DebugFilePath
+						+ Assembly.GetCallingAssembly().GetName().Name + ".Trace.json", outputTemplate:
+						"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] ({SourceContext}) {Message}{NewLine}{Exception}")
 						.CreateLogger() )
 			{
-				Logger.Debug(message);
+				Logger.Debug(new StackTrace().GetFrame(1).GetMethod().Name);
 			}
 		}
 
-		public static void LogInfo(string message)
+		public static void LogInfo()
 		{
 			using (var Logger = new LoggerConfiguration()
-						.WriteTo.File(@LogResources.FilePath
-						+ Assembly.GetCallingAssembly().GetName().Name + ".InfoLog.json")
+						.WriteTo.File(@Properties.Settings.Default.InfoFilePath
+						+ Assembly.GetCallingAssembly().GetName().Name + ".InfoLog.json", outputTemplate:
+						"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] ({SourceContext}) {Message}{NewLine}{Exception}")
 						.CreateLogger())
 			{
-				Logger.Information(message);
+				Logger.Information(new StackTrace().GetFrame(1).GetMethod().Name);
 			}
 		}
 
-		public static void LogError(string message)
+		public static void LogError()
 		{
 			using (var Logger = new LoggerConfiguration()
-						.WriteTo.File(@LogResources.FilePath
-						+ Assembly.GetCallingAssembly().GetName().Name + ".ErrorLog.json")
+						.WriteTo.File(@Properties.Settings.Default.ErrorFilePath
+						+ Assembly.GetCallingAssembly().GetName().Name + ".ErrorLog.json", outputTemplate:
+						"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] ({SourceContext}) {Message}{NewLine}{Exception}")
 						.CreateLogger())
 			{
-				Logger.Information(message);
+				Logger.Error(new StackTrace().GetFrame(1).GetMethod().Name);
 			}
 		}
 
-		public static void LogWarning(string message)
-		{
-			using (var Logger = new LoggerConfiguration()
-						.WriteTo.File(@LogResources.FilePath
-						+ Assembly.GetCallingAssembly().GetName().Name + ".WarningLog.json")
-						.CreateLogger())
-			{
-				Logger.Information(message);
-			}
-		}
-
-		public static void LogFatal(string message)
-		{
-			using (var Logger = new LoggerConfiguration()
-						.WriteTo.File(@LogResources.FilePath
-						+ Assembly.GetCallingAssembly().GetName().Name + ".FatalLog.json")
-						.CreateLogger())
-			{
-				Logger.Information(message);
-			}
-		}
 	}
 }

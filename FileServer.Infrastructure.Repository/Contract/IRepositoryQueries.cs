@@ -22,6 +22,6 @@ namespace FileServer.Infrastructure.Repository.Contract
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
-		List<T> GetByID(int id);
+		List<T> GetByID(Guid id);
 	}
 }

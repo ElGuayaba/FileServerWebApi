@@ -127,6 +127,9 @@
   <data name="DeleteError" xml:space="preserve">
     <value>Error al eliminar el objeto.</value>
   </data>
+  <data name="GetCallError" xml:space="preserve">
+    <value>Error al obtener datos de la Web API remota.</value>
+  </data>
   <data name="GetError" xml:space="preserve">
     <value>Error al obtener datos del repositorio</value>
   </data>
@@ -134,7 +137,15 @@
     <value>Error de HTTP Request.</value>
     <comment>Respuesta a la excepción HttpRequestException</comment>
   </data>
+  <data name="NotSupported" xml:space="preserve">
+    <value>Operación no soportada</value>
+    <comment>Respuesta a la excepción NotSupportedException</comment>
+  </data>
   <data name="UpdateError" xml:space="preserve">
     <value>Error al actualizar el objeto.</value>
+  </data>
+  <data name="WebError" xml:space="preserve">
+    <value>Error de Web</value>
+    <comment>Respuesta a la excepción WebException</comment>
   </data>
 </root>

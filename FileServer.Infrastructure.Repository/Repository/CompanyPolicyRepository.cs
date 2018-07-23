@@ -1,47 +1,57 @@
-﻿using System;
+﻿using FileServer.Common.Entities;
+using FileServer.Common.Layer;
+using FileServer.Infrastructure.Repository.Contract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FileServer.Infrastructure.Repository.Contract;
-using FileServer.Common.Entities;
-using FileServer.Common.Layer;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FileServer.Infrastructure.Repository.Repository
 {
-	/// <summary>
-	/// Repository class for Alumno objects.
-	/// </summary>
-	/// <seealso cref="FileServer.Infrastructure.Repository.Contract.IRepositoryOperations{FileServer.Common.Entities.Alumno}" />
-	public class AlumnoRepository : IRepositoryOperations<Alumno>
+	public class CompanyPolicyRepository : IRepositoryOperations<CompanyPolicy>
 	{
 		/// <summary>
 		/// The filemanager
 		/// </summary>
 		private FileManager fm;
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AlumnoRepository"/> class.
+		/// Initializes a new instance of the <see cref="CompanyPolicyRepository"/> class.
 		/// </summary>
-		public AlumnoRepository()
+		public CompanyPolicyRepository()
 		{
-			this.fm = new FileManager();
+			fm = new FileManager(Properties.Settings.Default.PolicyFile);
 			fm.CreateFile();
 		}
 
 		/// <summary>
 		/// Adds the specified Alumno object.
 		/// </summary>
-		/// <param name="alumno">Alumno object to be added.</param>
+		/// <param name="companyPolicy">Alumno object to be added.</param>
 		/// <returns>The object added if successful, null otherwise</returns>
 		/// <exception cref="VuelingException"></exception>
-		public Alumno Add(Alumno alumno)
+		public CompanyPolicy Add(CompanyPolicy companyPolicy)
 		{
+			List<CompanyPolicy> jsonNodes;
 			try
 			{
-				return fm.ProcessAlumnoData(alumno);
+				var data = fm.RetrieveData();
+				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
+				if (jsonNodes == null)
+				{
+					jsonNodes = new List<CompanyPolicy>();
+				}
+				jsonNodes.Add(companyPolicy);
+
+				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
+				fm.WriteToFile(resultJSONList);
+				return Json<CompanyPolicy>.DeserializeObject(fm.RetrieveData()).Last();
 			}
 			catch (VuelingException ex)
 			{
-				throw new VuelingException(Resources.AddError, ex);
-			}			
+				LogManager.LogError();
+				throw new VuelingException(Resources.DeleteError, ex);
+			}
 		}
 
 		/// <summary>
@@ -51,15 +61,16 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// The objects stored in a list.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public List<Alumno> GetAll()
+		public List<CompanyPolicy> GetAll()
 		{
 			try
 			{
 				var data = fm.RetrieveData();
-				return Json.DeserializeAlumnos(data);
+				return Json<CompanyPolicy>.DeserializeObject(data);
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
@@ -72,15 +83,16 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// The result from the query by ID.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public List<Alumno> GetByID(int id)
+		public List<CompanyPolicy> GetByID(Guid id)
 		{
 			try
 			{
 				var data = fm.RetrieveData();
-				return Json.DeserializeAlumnos(data).Where(alu => alu.Id == id).ToList();
+				return Json<CompanyPolicy>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
@@ -94,26 +106,27 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// true if successful, false otherwise.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public bool Remove(int id)
+		public bool Remove(Guid id)
 		{
-			List<Alumno> jsonNodes;
+			List<CompanyPolicy> jsonNodes;
 			try
 			{
 				var data = fm.RetrieveData();
-				jsonNodes = Json.DeserializeAlumnos(data);
+				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
 				if (jsonNodes == null)
 				{
-					jsonNodes = new List<Alumno>();
+					jsonNodes = new List<CompanyPolicy>();
 				}
-				Alumno alumno = jsonNodes.Where<Alumno>(alu => alu.Id == id).First();
-				jsonNodes.Remove(alumno);
+				CompanyPolicy companyPolicy = jsonNodes.Where<CompanyPolicy>(alu => alu.Id.Equals(id)).First();
+				jsonNodes.Remove(companyPolicy);
 
-				var resultJSONList = Json.SerializeIndented(jsonNodes);
+				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
 				fm.WriteToFile(resultJSONList);
 				return true;
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.DeleteError, ex);
 			}
 		}
@@ -121,39 +134,41 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <summary>
 		/// Updates the specified Alumno object.
 		/// </summary>
-		/// <param name="alumno">The object to be inserted.</param>
+		/// <param name="companyPolicy">The object to be inserted.</param>
 		/// <returns>
 		/// The inserted object.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public Alumno Update(Alumno alumno)
+		public CompanyPolicy Update(CompanyPolicy companyPolicy)
 		{
-			List<Alumno> jsonNodes;
+			List<CompanyPolicy> jsonNodes;
 			int index;
 			try
 			{
 				var data = fm.RetrieveData();
-				jsonNodes = Json.DeserializeAlumnos(data);
+				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
 				if (jsonNodes == null)
 				{
-					jsonNodes = new List<Alumno>();
+					jsonNodes = new List<CompanyPolicy>();
 				}
-				Alumno toRemove = jsonNodes.Where<Alumno>(alu => alu.Id == alumno.Id).First();
+				CompanyPolicy toRemove = jsonNodes.Where<CompanyPolicy>(alu => alu.Id.Equals(companyPolicy.Id)).First();
 				index = jsonNodes.IndexOf(toRemove);
 				jsonNodes.Remove(toRemove);
-				jsonNodes.Insert(index, alumno);
+				jsonNodes.Insert(index, companyPolicy);
 
-				var resultJSONList = Json.SerializeIndented(jsonNodes);
+				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
 				fm.WriteToFile(resultJSONList);
 
-				return Json.DeserializeAlumnos(fm.RetrieveData())[index];
+				return Json<CompanyPolicy>.DeserializeObject(fm.RetrieveData())[index];
 			}
 			catch (InvalidOperationException)
 			{
+				LogManager.LogError();
 				return null;
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}

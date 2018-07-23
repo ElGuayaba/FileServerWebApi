@@ -79,24 +79,6 @@ namespace FileServer.Common.Layer.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a AlumnosWebApi.json.
-        /// </summary>
-        internal static string FileName {
-            get {
-                return ResourceManager.GetString("FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a C:/Users/formacion/AppData/Vueling/.
-        /// </summary>
-        internal static string FilePath {
-            get {
-                return ResourceManager.GetString("FilePath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Busca una cadena traducida similar a Error de Lectura/Escritura.
         /// </summary>
         internal static string IO {

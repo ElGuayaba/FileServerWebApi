@@ -4,47 +4,45 @@ using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Infrastructure.Repository.Repository;
 using System.Collections.Generic;
 using FileServer.Common.Layer;
+using System;
 
 namespace FileServer.Application.Services.Service
 {
-	/// <summary>
-	/// Service class for Alumno objects.
-	/// </summary>
-	/// <seealso cref="FileServer.Application.Services.Contract.IServiceOperations{FileServer.Common.Entities.Alumno}" />
-	public class AlumnoService : IServiceOperations<Alumno>
+	public class CompanyPolicyService : IServiceOperations<CompanyPolicy>
 	{
 		/// <summary>
 		/// Generic repository.
 		/// </summary>
-		private readonly IRepositoryOperations<Alumno> iRepository;
+		private readonly IRepositoryOperations<CompanyPolicy> iRepository;
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AlumnoService"/> class.
+		/// Initializes a new instance of the <see cref="CompanyPolicyService"/> class.
 		/// </summary>
-		public AlumnoService() : this(new AlumnoRepository())
+		public CompanyPolicyService() : this(new CompanyPolicyRepository())
 		{
 
 		}
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AlumnoService"/> class.
+		/// Initializes a new instance of the <see cref="CompanyPolicyService"/> class.
 		/// </summary>
-		/// <param name="alumnoRepository">The alumno repository.</param>
-		public AlumnoService(AlumnoRepository alumnoRepository)
+		/// <param name="companyPolicyRepository">The companyPolicy repository.</param>
+		public CompanyPolicyService(CompanyPolicyRepository companyPolicyRepository)
 		{
-			this.iRepository = alumnoRepository;
+			this.iRepository = companyPolicyRepository;
 		}
 		/// <summary>
 		/// Adds the specified Alumno object.
 		/// </summary>
-		/// <param name="alumno">The alumno.</param>
+		/// <param name="companyPolicy">The companyPolicy.</param>
 		/// <returns></returns>
-		public Alumno Add(Alumno alumno)
+		public CompanyPolicy Add(CompanyPolicy companyPolicy)
 		{
 			try
 			{
-				return iRepository.Add(alumno);
+				return iRepository.Add(companyPolicy);
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.AddError, ex);
 			}
 		}
@@ -53,7 +51,7 @@ namespace FileServer.Application.Services.Service
 		/// Gets all objects from the storage entity.
 		/// </summary>
 		/// <returns></returns>
-		public List<Alumno> GetAll()
+		public List<CompanyPolicy> GetAll()
 		{
 			try
 			{
@@ -61,6 +59,7 @@ namespace FileServer.Application.Services.Service
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
@@ -70,7 +69,7 @@ namespace FileServer.Application.Services.Service
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
-		public List<Alumno> GetByID(int id)
+		public List<CompanyPolicy> GetByID(Guid id)
 		{
 			try
 			{
@@ -78,6 +77,7 @@ namespace FileServer.Application.Services.Service
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
@@ -87,7 +87,7 @@ namespace FileServer.Application.Services.Service
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
-		public bool Remove(int id)
+		public bool Remove(Guid id)
 		{
 			try
 			{
@@ -95,23 +95,25 @@ namespace FileServer.Application.Services.Service
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.DeleteError, ex);
 			}
 		}
 
 		/// <summary>
-		/// Updates the specified alumno.
+		/// Updates the specified companyPolicy.
 		/// </summary>
-		/// <param name="alumno">The alumno.</param>
+		/// <param name="companyPolicy">The companyPolicy.</param>
 		/// <returns></returns>
-		public Alumno Update(Alumno alumno)
+		public CompanyPolicy Update(CompanyPolicy companyPolicy)
 		{
 			try
 			{
-				return iRepository.Update(alumno);
+				return iRepository.Update(companyPolicy);
 			}
 			catch (VuelingException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}

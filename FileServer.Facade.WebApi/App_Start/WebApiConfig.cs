@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileServer.Facade.WebApi.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,10 +14,10 @@ namespace FileServer.Facade.WebApi
 
 			// Rutas de API web
 			config.MapHttpAttributeRoutes();
-
+			config.MessageHandlers.Add(new TokenValidationHandler());
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
+				routeTemplate: "api/{controller}/{Id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
 		}

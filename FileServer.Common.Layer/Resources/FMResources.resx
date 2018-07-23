@@ -125,12 +125,6 @@
     <value>Argumento Nulo</value>
     <comment>Respuesta a la excepción ArgumentNullException</comment>
   </data>
-  <data name="FileName" xml:space="preserve">
-    <value>AlumnosWebApi.json</value>
-  </data>
-  <data name="FilePath" xml:space="preserve">
-    <value>C:/Users/formacion/AppData/Vueling/</value>
-  </data>
   <data name="IO" xml:space="preserve">
     <value>Error de Lectura/Escritura</value>
     <comment>Respuesta a la excepción IOException</comment>

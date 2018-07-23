@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using FileServer.Common.Layer.Resources;
+using System.Configuration;
 
 namespace FileServer.Common.Layer
 {
@@ -33,8 +34,17 @@ namespace FileServer.Common.Layer
 		/// </summary>
 		public FileManager()
 		{
-			FileName = FMResources.FileName;
-			FilePath = FMResources.FilePath + FileName;
+			FileName = Properties.Settings.Default.FileName;
+			FilePath = Properties.Settings.Default.FilePath + FileName;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FileManager"/> class.
+		/// </summary>
+		public FileManager(string filename)
+		{
+			FileName = filename;
+			FilePath = Properties.Settings.Default.FilePath + FileName;
 		}
 
 		/// <summary>
@@ -51,27 +61,32 @@ namespace FileServer.Common.Layer
 				}
 				catch (UnauthorizedAccessException ex)
 				{
-
+					LogManager.LogError();
 					throw new VuelingException(FMResources.Unauthorized, ex);
 				}
 				catch (ArgumentNullException ex)
 				{
+					LogManager.LogError();
 					throw new VuelingException(FMResources.ArgumentNull, ex);
 				}
 				catch (ArgumentException ex)
 				{
+					LogManager.LogError();
 					throw new VuelingException(FMResources.Argument, ex);
 				}
 				catch (DirectoryNotFoundException ex)
 				{
+					LogManager.LogError();
 					throw new VuelingException(FMResources.NotFound, ex);
 				}
 				catch (PathTooLongException ex)
 				{
+					LogManager.LogError();
 					throw new VuelingException(FMResources.PathTooLong, ex);
 				}
 				catch (IOException ex)
 				{
+					LogManager.LogError();
 					throw new VuelingException(FMResources.IO, ex);
 				}
 			}
@@ -104,31 +119,37 @@ namespace FileServer.Common.Layer
 			}
 			catch (UnauthorizedAccessException ex)
 			{
-
+				LogManager.LogError();
 				throw new VuelingException(FMResources.Unauthorized, ex);
 			}
 			catch (ArgumentNullException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.ArgumentNull, ex);
 			}
 			catch (ArgumentException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.Argument, ex);
 			}
 			catch (DirectoryNotFoundException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.NotFound, ex);
 			}
 			catch (PathTooLongException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.PathTooLong, ex);
 			}
 			catch (IOException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.IO, ex);
 			}
 			catch (NotSupportedException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.NotSupported, ex);
 			}
 		}
@@ -146,69 +167,38 @@ namespace FileServer.Common.Layer
 			}
 			catch (UnauthorizedAccessException ex)
 			{
-
+				LogManager.LogError();
 				throw new VuelingException(FMResources.Unauthorized, ex);
 			}
 			catch (ArgumentNullException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.ArgumentNull, ex);
 			}
 			catch (ArgumentException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.Argument, ex);
 			}
 			catch (DirectoryNotFoundException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.NotFound, ex);
 			}
 			catch (PathTooLongException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.PathTooLong, ex);
 			}
 			catch (IOException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.IO, ex);
 			}
 			catch (NotSupportedException ex)
 			{
+				LogManager.LogError();
 				throw new VuelingException(FMResources.NotSupported, ex);
-			}
-		}
-
-		/// <summary>
-		/// Processes data from an Alumno object and stores it in the file.
-		/// </summary>
-		/// <param name="alumno">The alumno object to be stored in the storage file
-		/// </param>
-		/// <returns>
-		/// The inserted Alumno if the operation is successful, null otherwise.
-		/// </returns>
-		/// <exception cref="VuelingException"></exception>
-		public Alumno ProcessAlumnoData(Alumno alumno)
-		{
-			List<Alumno> jsonNodes;
-			try
-			{
-				CreateFile();
-				var data = RetrieveData();
-				jsonNodes = Json.DeserializeAlumnos(data);
-				if (jsonNodes == null)
-				{
-					jsonNodes = new List<Alumno>();
-				}
-				jsonNodes.Add(alumno);
-
-				var resultJSONList = Json.SerializeIndented(jsonNodes);
-				WriteToFile(resultJSONList);
-				return Json.DeserializeAlumnos(RetrieveData()).Last();
-			}
-			catch (InvalidOperationException)
-			{
-				return null;
-			}
-			catch (ArgumentNullException ex)
-			{
-				throw new VuelingException(FMResources.ArgumentNull,ex);
 			}
 		}
 	}

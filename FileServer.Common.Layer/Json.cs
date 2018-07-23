@@ -8,7 +8,7 @@ using FileServer.Common.Entities;
 
 namespace FileServer.Common.Layer
 {
-	public static class Json
+	public static class Json<T>
 	{
 		/// <summary>
 		/// Serializes Alumno objects in a List to json (indented) format.
@@ -17,7 +17,7 @@ namespace FileServer.Common.Layer
 		/// <returns>
 		/// The string of serialized objects
 		/// </returns>
-		public static string SerializeIndented(List<Alumno> jsonNodes)
+		public static string SerializeIndented(List<T> jsonNodes)
 		{
 			return JsonConvert.SerializeObject(jsonNodes, Formatting.Indented);
 		}
@@ -29,7 +29,7 @@ namespace FileServer.Common.Layer
 		/// <returns>
 		/// The string of serialized objects
 		/// </returns>
-		public static string SerializeIndented(Alumno jsonNode)
+		public static string SerializeIndented(T jsonNode)
 		{
 			return JsonConvert.SerializeObject(jsonNode, Formatting.Indented);
 		}
@@ -41,9 +41,15 @@ namespace FileServer.Common.Layer
 		/// <returns>
 		/// A list of Alumno objects.
 		/// </returns>
-		public static List<Alumno> DeserializeAlumnos(string jsondata)
+		public static List<T> DeserializeObject(string jsondata)
 		{
-			return JsonConvert.DeserializeObject<List<Alumno>>(jsondata);
+			return JsonConvert.DeserializeObject<List<T>>(jsondata);
+		}
+
+		public static T DeserializeObjectArray(string jsondata)
+		{
+			//CompanyPolicy[] list = new CompanyPolicy[200];
+			return JsonConvert.DeserializeObject<T>(jsondata);
 		}
 	}
 }

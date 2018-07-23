@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FileServer.Application.Services.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ClientRoute" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.mocky.io/v2/5808862710000087232b75ac/</Value>
+    </Setting>
+    <Setting Name="PolicyRoute" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.mocky.io/v2/580891a4100000e8242b75c5/</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -30,6 +30,6 @@ namespace FileServer.Infrastructure.Repository.Contract
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
-		bool Remove(int id);
+		bool Remove(Guid id);
 	}
 }

@@ -88,6 +88,15 @@ namespace FileServer.Application.Services {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al obtener datos de la Web API remota..
+        /// </summary>
+        internal static string GetCallError {
+            get {
+                return ResourceManager.GetString("GetCallError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al obtener datos del repositorio.
         /// </summary>
         internal static string GetError {
@@ -106,11 +115,29 @@ namespace FileServer.Application.Services {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Operación no soportada.
+        /// </summary>
+        internal static string NotSupported {
+            get {
+                return ResourceManager.GetString("NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al actualizar el objeto..
         /// </summary>
         internal static string UpdateError {
             get {
                 return ResourceManager.GetString("UpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Error de Web.
+        /// </summary>
+        internal static string WebError {
+            get {
+                return ResourceManager.GetString("WebError", resourceCulture);
             }
         }
     }
