@@ -124,6 +124,9 @@
     <value>Argumento Nulo.</value>
     <comment>Respuesta a la excepción ArgumentNullException</comment>
   </data>
+  <data name="ClearError" xml:space="preserve">
+    <value>Error al vaciar la base de datos</value>
+  </data>
   <data name="DeleteError" xml:space="preserve">
     <value>Error al eliminar el objeto.</value>
   </data>

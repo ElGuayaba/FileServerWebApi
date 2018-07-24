@@ -31,5 +31,10 @@ namespace FileServer.Application.Services.Contract
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
 		bool Remove(Guid id);
+		/// <summary>
+		/// Clears the storage entity.
+		/// </summary>
+		/// <returns></returns>
+		void Clear();
 	}
 }

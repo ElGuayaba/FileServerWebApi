@@ -172,5 +172,19 @@ namespace FileServer.Infrastructure.Repository.Repository
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
+
+		public void Clear()
+		{
+			try
+			{
+				fm.DeleteFile();
+				fm.CreateFile();
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.ClearError, ex);
+			}
+		}
 	}
 }

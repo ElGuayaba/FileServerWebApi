@@ -31,5 +31,9 @@ namespace FileServer.Infrastructure.Repository.Contract
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
 		bool Remove(Guid id);
+		/// <summary>
+		/// Clears the storage entity.
+		/// </summary>
+		void Clear();
 	}
 }

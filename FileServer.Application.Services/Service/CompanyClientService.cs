@@ -126,5 +126,18 @@ namespace FileServer.Application.Services.Service
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
+
+		public void Clear()
+		{
+			try
+			{
+				iRepository.Clear();
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.ClearError, ex);
+			}
+		}
 	}
 }

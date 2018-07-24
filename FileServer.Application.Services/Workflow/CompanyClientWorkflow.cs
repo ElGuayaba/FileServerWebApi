@@ -19,7 +19,7 @@ namespace FileServer.Application.Services.Workflow
 		{
 			try
 			{
-				var clients = HttpClientController.GetCall();
+				var clients = HttpClientService.GetCall();
 				var service = new CompanyClientService();
 				foreach (CompanyClient client in clients)
 				{
@@ -38,20 +38,16 @@ namespace FileServer.Application.Services.Workflow
 		{
 			try
 			{
-				var clients = HttpClientController.GetCall();
+				var clients = HttpClientService.GetCall();
 				var service = new CompanyClientService();
 				var stored = service.GetAll();
-				bool hasChanged = clients.SequenceEqual(stored);
+				bool hasChanged = !clients.SequenceEqual(stored);
 				if (hasChanged)
 				{
 					LogManager.LogDebug();
-					//--------Mover a Repository
-					FileManager.DeleteFile();
-					//-----------------
-					service = new CompanyClientService();
+					service.Clear();
 					foreach (CompanyClient client in clients)
 					{
-						LogManager.LogInfo();
 						service.Add(client);
 					} 
 				}

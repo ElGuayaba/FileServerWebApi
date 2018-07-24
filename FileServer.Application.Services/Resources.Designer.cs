@@ -79,6 +79,15 @@ namespace FileServer.Application.Services {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Error al vaciar la base de datos.
+        /// </summary>
+        internal static string ClearError {
+            get {
+                return ResourceManager.GetString("ClearError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Error al eliminar el objeto..
         /// </summary>
         internal static string DeleteError {

@@ -201,14 +201,13 @@ namespace FileServer.Common.Layer
 				throw new VuelingException(FMResources.NotSupported, ex);
 			}
 		}
-
-		//-------vvv-------Quitar propiedad estática
-		public static void DeleteFile()
+		
+		public void DeleteFile()
 		{
 			try
 			{
-				if (File.Exists("C:/Users/formacion/AppData/Vueling/Clients.json"))
-					File.Delete("C:/Users/formacion/AppData/Vueling/Clients.json");
+				if (FileExists())
+					File.Delete(FilePath);
 			}
 			catch (UnauthorizedAccessException ex)
 			{

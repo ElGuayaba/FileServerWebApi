@@ -1,5 +1,4 @@
-﻿using FileServer.Application.Services.Scheduler.Jobs;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using System;
 using System.Collections.Generic;
@@ -18,12 +17,12 @@ namespace FileServer.Application.Services.Scheduler
 
 			IScheduler scheduler = await sf.GetScheduler();
 			await scheduler.Start();
-			IJobDetail job = JobBuilder.Create<GetClients>().Build();
+			IJobDetail job = JobBuilder.Create<ScheduleRefresh>().Build();
 			ITrigger trigger = TriggerBuilder.Create()
-			 .WithIdentity("GetClients")
-			 .StartAt(DateTimeOffset.Now.AddSeconds(30))
+			 .WithIdentity("Refresh")
+			 .StartAt(DateTimeOffset.Now.AddSeconds(20))
 			 .WithSimpleSchedule(x => x
-			   .WithIntervalInSeconds(30)
+			   .WithIntervalInSeconds(15)
 			   .RepeatForever())
 			   .Build();
 

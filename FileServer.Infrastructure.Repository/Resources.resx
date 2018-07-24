@@ -120,6 +120,9 @@
   <data name="AddError" xml:space="preserve">
     <value>Error al añadir el objeto en el fichero de almacenamiento.</value>
   </data>
+  <data name="ClearError" xml:space="preserve">
+    <value>Error al vaciar la base de datos.</value>
+  </data>
   <data name="DeleteError" xml:space="preserve">
     <value>Error al eliminar el objeto.</value>
   </data>

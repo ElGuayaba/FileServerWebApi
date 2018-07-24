@@ -14,16 +14,16 @@ namespace FileServer.Application.Services
 	/// <summary>
 	/// Controller in charge of getting information from a webapi
 	/// </summary>
-	public class HttpPolicyController
+	public class HttpClientService
 	{
 		/// <summary>
 		/// The client
 		/// </summary>
 		static WebClient client;
 		/// <summary>
-		/// Initializes the <see cref="HttpPolicyController"/> class.
+		/// Initializes the <see cref="HttpClientService"/> class.
 		/// </summary>
-		static HttpPolicyController()
+		static HttpClientService()
 		{
 			client = new WebClient();
 		}
@@ -32,15 +32,16 @@ namespace FileServer.Application.Services
 		/// Gets the call.
 		/// </summary>
 		/// <returns></returns>
-		public static List<CompanyPolicy> GetCall()
+		/// <exception cref="VuelingException"></exception>
+		public static List<CompanyClient> GetCall()
 		{
-			ArrayEntity<CompanyPolicy> listPolicies;
+			ArrayEntity<CompanyClient> listClients;
 			try
 			{
-				String policyJsonString = client.DownloadString(Properties.Settings.Default.PolicyRoute);
-				listPolicies = Json<ArrayEntity<CompanyPolicy>>.DeserializeObjectArray(policyJsonString);
+				var clientJsonString = client.DownloadString(Properties.Settings.Default.ClientRoute);
+				listClients = Json<ArrayEntity<CompanyClient>>.DeserializeObjectArray(clientJsonString);
 
-				return listPolicies.policies.OfType<CompanyPolicy>().ToList();
+				return listClients.clients.OfType<CompanyClient>().ToList();
 			}
 			catch (ArgumentNullException ex)
 			{
