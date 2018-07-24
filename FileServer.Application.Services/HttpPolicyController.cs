@@ -32,7 +32,7 @@ namespace FileServer.Application.Services
 		/// Gets the call.
 		/// </summary>
 		/// <returns></returns>
-		public static CompanyPolicy[] GetCall()
+		public static List<CompanyPolicy> GetCall()
 		{
 			ArrayEntity<CompanyPolicy> listPolicies;
 			try
@@ -40,7 +40,7 @@ namespace FileServer.Application.Services
 				String policyJsonString = client.DownloadString(Properties.Settings.Default.PolicyRoute);
 				listPolicies = Json<ArrayEntity<CompanyPolicy>>.DeserializeObjectArray(policyJsonString);
 
-				return listPolicies.policies;
+				return listPolicies.policies.OfType<CompanyPolicy>().ToList();
 			}
 			catch (ArgumentNullException ex)
 			{

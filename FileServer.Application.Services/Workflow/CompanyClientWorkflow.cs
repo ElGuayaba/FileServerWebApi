@@ -1,6 +1,7 @@
 ﻿using FileServer.Application.Services.Service;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
+using System.Linq;
 
 namespace FileServer.Application.Services.Workflow
 {
@@ -18,11 +19,41 @@ namespace FileServer.Application.Services.Workflow
 		{
 			try
 			{
-				var policies = HttpClientController.GetCall();
-				CompanyClientService service = new CompanyClientService();
-				foreach (CompanyClient policy in policies)
+				var clients = HttpClientController.GetCall();
+				var service = new CompanyClientService();
+				foreach (CompanyClient client in clients)
 				{
-					service.Add(policy);
+					service.Add(client);
+				}
+				return true;
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetCallError, ex);
+			}
+		}
+
+		public static bool Refresh()
+		{
+			try
+			{
+				var clients = HttpClientController.GetCall();
+				var service = new CompanyClientService();
+				var stored = service.GetAll();
+				bool hasChanged = clients.SequenceEqual(stored);
+				if (hasChanged)
+				{
+					LogManager.LogDebug();
+					//--------Mover a Repository
+					FileManager.DeleteFile();
+					//-----------------
+					service = new CompanyClientService();
+					foreach (CompanyClient client in clients)
+					{
+						LogManager.LogInfo();
+						service.Add(client);
+					} 
 				}
 				return true;
 			}

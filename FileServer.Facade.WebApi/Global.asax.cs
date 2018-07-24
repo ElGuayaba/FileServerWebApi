@@ -1,4 +1,5 @@
 ﻿using FileServer.Application.Services.Workflow;
+using FileServer.Application.Services.Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace FileServer.Facade.WebApi
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 			CompanyClientWorkflow.Init();
 			CompanyPolicyWorkflow.Init();
+			Scheduler.Start();
 		}
 	}
 }

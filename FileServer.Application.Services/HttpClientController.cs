@@ -33,14 +33,14 @@ namespace FileServer.Application.Services
 		/// </summary>
 		/// <returns></returns>
 		/// <exception cref="VuelingException"></exception>
-		public static CompanyClient[] GetCall()
+		public static List<CompanyClient> GetCall()
 		{
 			ArrayEntity<CompanyClient> listClients;
 			try
 			{
 				var clientJsonString = client.DownloadString(Properties.Settings.Default.ClientRoute);
 				listClients = Json<ArrayEntity<CompanyClient>>.DeserializeObjectArray(clientJsonString);
-				return listClients.clients;
+				return listClients.clients.OfType<CompanyClient>().ToList();
 			}
 			catch (ArgumentNullException ex)
 			{

@@ -201,5 +201,50 @@ namespace FileServer.Common.Layer
 				throw new VuelingException(FMResources.NotSupported, ex);
 			}
 		}
+
+		//-------vvv-------Quitar propiedad estática
+		public static void DeleteFile()
+		{
+			try
+			{
+				if (File.Exists("C:/Users/formacion/AppData/Vueling/Clients.json"))
+					File.Delete("C:/Users/formacion/AppData/Vueling/Clients.json");
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.Unauthorized, ex);
+			}
+			catch (ArgumentNullException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.ArgumentNull, ex);
+			}
+			catch (ArgumentException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.Argument, ex);
+			}
+			catch (DirectoryNotFoundException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.NotFound, ex);
+			}
+			catch (PathTooLongException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.PathTooLong, ex);
+			}
+			catch (IOException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.IO, ex);
+			}
+			catch (NotSupportedException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(FMResources.NotSupported, ex);
+			}
+		}
 	}
 }
