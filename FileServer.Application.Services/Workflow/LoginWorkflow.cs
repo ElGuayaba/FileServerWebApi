@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace FileServer.Application.Services.Workflow
 {
@@ -18,6 +19,13 @@ namespace FileServer.Application.Services.Workflow
 				return result.First();
 			else
 				return null;
+		}
+
+		public static void TestMethod()
+		{
+			//chequear el modelo -> badrequest
+			//si es válido, crear claims
+			//
 		}
 	}
 }

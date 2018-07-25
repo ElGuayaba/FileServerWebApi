@@ -38,7 +38,6 @@ namespace FileServer.Facade.WebApi.Controllers
 		{
 			if (login == null)
 				return BadRequest();
-			//bajar a la capa de aplicación
 			CompanyClientService authService = new CompanyClientService();
 			List<CompanyClient> result = authService.GetByID(login.UserId);
 			CompanyClient companyClient;
