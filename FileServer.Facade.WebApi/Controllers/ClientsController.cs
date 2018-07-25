@@ -12,19 +12,38 @@ using System.Web.Http.Description;
 
 namespace FileServer.Facade.WebApi.Controllers
 {
+	/// <summary>
+	/// Controller in charge of managing access to the client database.
+	/// </summary>
+	/// <seealso cref="System.Web.Http.ApiController" />
 	[Authorize]
 	public class ClientsController : ApiController
     {
-		public readonly IServiceOperations<CompanyClient> iService = new CompanyClientService();
+		/// <summary>
+		/// The service interface used to call the application layer.
+		/// </summary>
+		public readonly IServiceOperations<CompanyClient> iService;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ClientsController"/> class.
+		/// </summary>
 		public ClientsController() : this(new CompanyClientService())
 		{
 
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ClientsController"/> class.
+		/// </summary>
+		/// <param name="CompanyClientService">The company client service.</param>
 		public ClientsController(CompanyClientService CompanyClientService)
 		{
 			this.iService = CompanyClientService;
 		}
 		// GET: api/Clients
+		/// <summary>
+		/// Gets all Clients.
+		/// </summary>
+		/// <returns>A set of clients as a queriable object</returns>
+		/// <exception cref="HttpResponseException"></exception>
 		public IQueryable<CompanyClient> Get()
 		{
 			try
@@ -38,6 +57,11 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// GET: api/Clients/5
+		/// <summary>
+		/// Gets the specified Client.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>OK if successful, NotFound otherwise.</returns>
 		public IHttpActionResult Get(Guid id)
 		{
 			try
@@ -52,6 +76,12 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// POST: api/Clients
+		/// <summary>
+		/// Posts the specified company client.
+		/// </summary>
+		/// <param name="CompanyClient">The company client.</param>
+		/// <returns>Creation route if successful, BadRequest otherwise.</returns>
+		/// <exception cref="HttpResponseException"></exception>
 		[ResponseType(typeof(CompanyClient))]
 		public IHttpActionResult Post(CompanyClient CompanyClient)
 		{
@@ -74,6 +104,16 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// PUT: api/Clients/5
+		/// <summary>
+		/// Updates the specified Client.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="CompanyClient">The company client.</param>
+		/// <returns>
+		/// NoContent if successful, NotFound if the identifier is not listed,
+		///  BadRequest in any other cases.
+		/// </returns>
+		/// <exception cref="HttpResponseException"></exception>
 		public IHttpActionResult Put(Guid id, CompanyClient CompanyClient)
 		{
 			if (!ModelState.IsValid)
@@ -104,6 +144,15 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// DELETE: api/Clients/5
+		/// <summary>
+		/// Deletes the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>
+		/// OK if successful, NotFound if the identifier is not listed,
+		/// BadRequest in any other cases.
+		/// </returns>
+		/// <exception cref="HttpResponseException"></exception>
 		public IHttpActionResult Delete(Guid id)
 		{
 			CompanyClient CompanyClient;
