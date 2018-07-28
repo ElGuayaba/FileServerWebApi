@@ -13,8 +13,9 @@ En su estado actual, la solución realiza las siguientes operaciones:
 -Inmediatamente, lee los datos servidos por las web apis dadas en el enunciado del examen
 -Persiste dichos datos en un fichero en formato JSON.
 -Continúa corriendo la web api
--Utiliza un sistema de tokens para filtrar los usuarios que acceden a los datos
-a través de httprequests
+-Utiliza un sistema de tokens para autenticar y autorizar los usuarios que acceden a 
+los datos a través de httprequests
+-Cada hora refresca los datos obtenidos usando un Scheduler
 
 La implementación de la solución se hizo siguiendo los patrones
 de la arquitectura DDD ajustándolos a la escala del problema. Asimismo,

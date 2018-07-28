@@ -22,7 +22,7 @@ namespace FileServer.Application.Services.Scheduler
 			 .WithIdentity("Refresh")
 			 .StartAt(DateTimeOffset.Now.AddSeconds(20))
 			 .WithSimpleSchedule(x => x
-			   .WithIntervalInSeconds(15)
+			   .WithIntervalInHours(1)
 			   .RepeatForever())
 			   .Build();
 
