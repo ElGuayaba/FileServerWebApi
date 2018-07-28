@@ -20,6 +20,7 @@ namespace FileServer.Facade.WebApi
 						.Description("Filling bearer token here")
 						.Name("Authorization")
 						.In("header");
+
 						c.IncludeXmlComments(string.Format(@"{0}\bin\FileServer.Facade.WebApi.xml", System.AppDomain.CurrentDomain.BaseDirectory));
 						// By default, the service root url is inferred from the request used to access the docs.
 						// However, there may be situations (e.g. proxy and load-balanced environments) where this does not

@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contract\IServiceOperations.cs" />
+    <Compile Include="Contract\IServiceOperation.cs" />
     <Compile Include="Contract\IServiceQueries.cs" />
     <Compile Include="Service\HttpPolicyService.cs" />
     <Compile Include="Service\HttpClientService.cs" />

@@ -44,6 +44,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// </summary>
 		/// <returns>A set of clients as a queriable object</returns>
 		/// <exception cref="HttpResponseException"></exception>
+		[Authorize(Roles = "admin")]
 		public IQueryable<CompanyClient> Get()
 		{
 			try
@@ -62,6 +63,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns>OK if successful, NotFound otherwise.</returns>
+		[Authorize(Roles = "admin, user")]
 		public IHttpActionResult Get(Guid id)
 		{
 			try
@@ -83,6 +85,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// <returns>Creation route if successful, BadRequest otherwise.</returns>
 		/// <exception cref="HttpResponseException"></exception>
 		[ResponseType(typeof(CompanyClient))]
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Post(CompanyClient CompanyClient)
 		{
 			if (!ModelState.IsValid)
@@ -114,6 +117,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		///  BadRequest in any other cases.
 		/// </returns>
 		/// <exception cref="HttpResponseException"></exception>
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Put(Guid id, CompanyClient CompanyClient)
 		{
 			if (!ModelState.IsValid)
@@ -153,6 +157,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// BadRequest in any other cases.
 		/// </returns>
 		/// <exception cref="HttpResponseException"></exception>
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Delete(Guid id)
 		{
 			CompanyClient CompanyClient;

@@ -24,6 +24,7 @@ namespace FileServer.Facade.WebApi.Controllers
 			this.iService = CompanyPolicyService;
 		}
 		// GET: api/CompanyPolicy
+		[Authorize(Roles = "admin")]
 		public IQueryable<CompanyPolicy> Get()
 		{
 			try
@@ -38,6 +39,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// GET: api/CompanyPolicy/5
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Get(Guid id)
 		{
 			try
@@ -53,6 +55,7 @@ namespace FileServer.Facade.WebApi.Controllers
 
 		// POST: api/CompanyPolicy
 		[ResponseType(typeof(CompanyPolicy))]
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Post(CompanyPolicy CompanyPolicy)
 		{
 			if (!ModelState.IsValid)
@@ -74,6 +77,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// PUT: api/CompanyPolicy/5
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Put(Guid id, CompanyPolicy CompanyPolicy)
 		{
 			if (!ModelState.IsValid)
@@ -104,6 +108,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// DELETE: api/CompanyPolicy/5
+		[Authorize(Roles = "admin")]
 		public IHttpActionResult Delete(Guid id)
 		{
 			CompanyPolicy CompanyPolicy;
