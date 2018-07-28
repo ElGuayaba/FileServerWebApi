@@ -1,5 +1,5 @@
-﻿using FileServer.Application.Services.Workflow;
-using FileServer.Application.Services.Scheduler;
+﻿using FileServer.Application.Service.Workflow;
+using FileServer.Application.Service.Scheduler;
 using System;
 using System.Collections.Generic;
 using System.Linq;

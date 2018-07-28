@@ -5,7 +5,7 @@ using FileServer.Common.Entities;
 using FileServer.Common.Layer;
 using System.Net;
 
-namespace FileServer.Application.Services
+namespace FileServer.Application.Service
 {
 	/// <summary>
 	/// Controller in charge of getting information from a webapi

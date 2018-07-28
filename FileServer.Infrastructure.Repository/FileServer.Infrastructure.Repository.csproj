@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\ICompanyPolicyRepository.cs" />
+    <Compile Include="Contract\ICompanyClientRepository.cs" />
     <Compile Include="Contract\IRepositoryOperations.cs" />
     <Compile Include="Contract\IRepositoryQueries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

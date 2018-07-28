@@ -1,9 +1,9 @@
-﻿using FileServer.Application.Services.Service;
+﻿using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
 using System.Linq;
 
-namespace FileServer.Application.Services.Workflow
+namespace FileServer.Application.Service.Workflow
 {
 	/// <summary>
 	/// Class in charge of running a workflow associated with Policies

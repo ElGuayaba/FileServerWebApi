@@ -1,4 +1,4 @@
-﻿using FileServer.Application.Services.Service;
+﻿using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-namespace FileServer.Application.Services.Workflow
+namespace FileServer.Application.Service.Workflow
 {
 	public class LoginWorkflow
 	{

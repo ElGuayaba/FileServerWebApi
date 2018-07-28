@@ -1,5 +1,5 @@
-﻿using FileServer.Application.Services.Contract;
-using FileServer.Application.Services.Service;
+﻿using FileServer.Application.Service.Contract;
+using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
 using System;
@@ -22,7 +22,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// <summary>
 		/// The service interface used to call the application layer.
 		/// </summary>
-		public readonly IServiceOperations<CompanyClient> iService;
+		public readonly ICompanyClientService iService;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ClientsController"/> class.
 		/// </summary>
@@ -76,6 +76,28 @@ namespace FileServer.Facade.WebApi.Controllers
 				return NotFound();
 			}
 		}
+
+		// GET: api/Clients/John
+		/// <summary>
+		/// Gets the specified Client.
+		/// </summary>
+		/// <param name="name">The identifier.</param>
+		/// <returns>OK if successful, NotFound otherwise.</returns>
+		[Authorize(Roles = "admin, user")]
+		[Route("/api/GetByName")]
+		public IHttpActionResult Get(string name)
+		{
+			try
+			{
+				CompanyClient CompanyClient = iService.GetByName(name).First();
+				return Ok(CompanyClient);
+			}
+			catch (VuelingException)
+			{
+				return NotFound();
+			}
+		}
+
 
 		// POST: api/Clients
 		/// <summary>

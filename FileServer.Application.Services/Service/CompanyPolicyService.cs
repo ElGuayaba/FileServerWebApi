@@ -1,4 +1,4 @@
-﻿using FileServer.Application.Services.Contract;
+﻿using FileServer.Application.Service.Contract;
 using FileServer.Common.Entities;
 using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Infrastructure.Repository.Repository;
@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using FileServer.Common.Layer;
 using System;
 
-namespace FileServer.Application.Services.Service
+namespace FileServer.Application.Service.Service
 {
-	public class CompanyPolicyService : IServiceOperations<CompanyPolicy>
+	public class CompanyPolicyService : ICompanyPolicyService
 	{
 		/// <summary>
 		/// Generic repository.
 		/// </summary>
-		private readonly IRepositoryOperations<CompanyPolicy> iRepository;
+		private readonly ICompanyPolicyRepository iRepository;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyPolicyService"/> class.
 		/// </summary>
@@ -74,6 +74,24 @@ namespace FileServer.Application.Services.Service
 			try
 			{
 				return iRepository.GetByID(id);
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetError, ex);
+			}
+		}
+
+		/// <summary>
+		/// Gets objects from the storage entity by identifier.
+		/// </summary>
+		/// <param name="policyId">The identifier.</param>
+		/// <returns></returns>
+		public CompanyClient GetClient(Guid policyId)
+		{
+			try
+			{
+				return iRepository.GetClient(policyId);
 			}
 			catch (VuelingException ex)
 			{

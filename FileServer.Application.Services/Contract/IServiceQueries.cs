@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileServer.Application.Services.Contract
+namespace FileServer.Application.Service.Contract
 {
 	/// <summary>
 	/// Contract that specifies methods that don't modify the storage entity.

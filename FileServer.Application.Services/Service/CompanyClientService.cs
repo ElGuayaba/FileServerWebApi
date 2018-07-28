@@ -1,4 +1,4 @@
-﻿using FileServer.Application.Services.Contract;
+﻿using FileServer.Application.Service.Contract;
 using FileServer.Common.Entities;
 using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Infrastructure.Repository.Repository;
@@ -6,18 +6,18 @@ using System.Collections.Generic;
 using FileServer.Common.Layer;
 using System;
 
-namespace FileServer.Application.Services.Service
+namespace FileServer.Application.Service.Service
 {
 	/// <summary>
 	/// Service class for Alumno objects.
 	/// </summary>
-	/// <seealso cref="FileServer.Application.Services.Contract.IServiceOperations{FileServer.Common.Entities.CompanyClient}" />
-	public class CompanyClientService : IServiceOperations<CompanyClient>
+	/// <seealso cref="FileServer.Application.Service.Contract.IServiceOperations{FileServer.Common.Entities.CompanyClient}" />
+	public class CompanyClientService : ICompanyClientService
 	{
 		/// <summary>
 		/// Generic repository.
 		/// </summary>
-		private readonly IRepositoryOperations<CompanyClient> iRepository;
+		private readonly ICompanyClientRepository iRepository;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyClientService"/> class.
 		/// </summary>
@@ -81,6 +81,24 @@ namespace FileServer.Application.Services.Service
 			try
 			{
 				return iRepository.GetByID(id);
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetError, ex);
+			}
+		}
+		/// <summary>
+		/// Gets objects from the storage entity by identifier.
+		/// </summary>
+		/// <param name="name">The identifier.</param>
+		/// <returns></returns>
+		/// <exception cref="VuelingException"></exception>
+		public List<CompanyClient> GetByName(string name)
+		{
+			try
+			{
+				return iRepository.GetByName(name);
 			}
 			catch (VuelingException ex)
 			{

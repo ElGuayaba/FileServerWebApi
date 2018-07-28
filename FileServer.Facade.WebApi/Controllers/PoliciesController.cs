@@ -1,5 +1,5 @@
-﻿using FileServer.Application.Services.Contract;
-using FileServer.Application.Services.Service;
+﻿using FileServer.Application.Service.Contract;
+using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace FileServer.Facade.WebApi.Controllers
 	[Authorize]
 	public class PoliciesController : ApiController
     {
-		public readonly IServiceOperations<CompanyPolicy> iService = new CompanyPolicyService();
+		public readonly ICompanyPolicyService iService = new CompanyPolicyService();
 		public PoliciesController() : this(new CompanyPolicyService())
 		{
 
@@ -46,6 +46,22 @@ namespace FileServer.Facade.WebApi.Controllers
 			{
 				CompanyPolicy CompanyPolicy = iService.GetByID(id).First();
 				return Ok(CompanyPolicy);
+			}
+			catch (InvalidOperationException)
+			{
+				return NotFound();
+			}
+		}
+
+		// GET: api/CompanyPolicy/5
+		[Authorize(Roles = "admin")]
+		[Route("/api/GetClient")]
+		public IHttpActionResult GetClient(Guid policyId)
+		{
+			try
+			{
+				CompanyClient companyClient = iService.GetClient(policyId);
+				return Ok(companyClient);
 			}
 			catch (InvalidOperationException)
 			{

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FileServer.Infrastructure.Repository.Repository
 {
-	public class CompanyPolicyRepository : IRepositoryOperations<CompanyPolicy>
+	public class CompanyPolicyRepository : ICompanyPolicyRepository
 	{
 		/// <summary>
 		/// The filemanager
@@ -89,6 +89,35 @@ namespace FileServer.Infrastructure.Repository.Repository
 			{
 				var data = fm.RetrieveData();
 				return Json<CompanyPolicy>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetError, ex);
+			}
+		}
+
+		/// <summary>
+		/// Gets Alumno objects by identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>
+		/// The result from the query by ID.
+		/// </returns>
+		/// <exception cref="VuelingException"></exception>
+		public CompanyClient GetClient(Guid policyId)
+		{
+			try
+			{
+				CompanyClientRepository repo = new CompanyClientRepository();
+				CompanyPolicy policy;
+				CompanyClient client;
+				var data = fm.RetrieveData();
+				policy = Json<CompanyPolicy>.DeserializeObject(data).Where(pol => pol.Id.Equals(policyId))
+					.ToList().FirstOrDefault();
+				client = repo.GetByID(policy.ClientId).FirstOrDefault();
+
+				return client;
 			}
 			catch (VuelingException ex)
 			{

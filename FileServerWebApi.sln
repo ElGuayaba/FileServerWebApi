@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Common", "3.Common", "{D7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Infrastructure.Repository", "FileServer.Infrastructure.Repository\FileServer.Infrastructure.Repository.csproj", "{B5AAF5CE-012F-4F69-9595-BEB75A815484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Application.Services", "FileServer.Application.Services\FileServer.Application.Services.csproj", "{9700499F-8E5A-46BF-BD6F-B6AEB580C041}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Application.Service", "FileServer.Application.Services\FileServer.Application.Service.csproj", "{9700499F-8E5A-46BF-BD6F-B6AEB580C041}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Facade.WebApi", "FileServer.Facade.WebApi\FileServer.Facade.WebApi.csproj", "{2C2B2AB9-C06B-47C7-9AB6-689C4402387A}"
 EndProject

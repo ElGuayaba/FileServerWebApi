@@ -1,4 +1,4 @@
-﻿using FileServer.Application.Services.Workflow;
+﻿using FileServer.Application.Service.Workflow;
 using FileServer.Common.Layer;
 using Quartz;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileServer.Application.Services.Scheduler
+namespace FileServer.Application.Service.Scheduler
 {
 	public class ScheduleRefresh : IJob
 	{

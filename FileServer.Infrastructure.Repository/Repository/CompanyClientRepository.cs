@@ -11,7 +11,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 	/// Repository class for Alumno objects.
 	/// </summary>
 	/// <seealso cref="FileServer.Infrastructure.Repository.Contract.IRepositoryOperations{FileServer.Common.Entities.CompanyClient}" />
-	public class CompanyClientRepository : IRepositoryOperations<CompanyClient>
+	public class CompanyClientRepository : ICompanyClientRepository
 	{
 		/// <summary>
 		/// The filemanager
@@ -91,6 +91,28 @@ namespace FileServer.Infrastructure.Repository.Repository
 			{
 				var data = fm.RetrieveData();
 				return Json<CompanyClient>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
+			}
+			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetError, ex);
+			}
+		}
+
+		/// <summary>
+		/// Gets Alumno objects by identifier.
+		/// </summary>
+		/// <param name="name">The identifier.</param>
+		/// <returns>
+		/// The result from the query by ID.
+		/// </returns>
+		/// <exception cref="VuelingException"></exception>
+		public List<CompanyClient> GetByName(string name)
+		{
+			try
+			{
+				var data = fm.RetrieveData();
+				return Json<CompanyClient>.DeserializeObject(data).Where(alu => alu.Name.Equals(name)).ToList();
 			}
 			catch (VuelingException ex)
 			{

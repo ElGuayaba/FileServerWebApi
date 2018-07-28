@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileServer.Application.Services.Contract
+namespace FileServer.Application.Service.Contract
 {
 	/// <summary>
 	/// Contract that specifies methods that don't modify the storage entity.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	/// <seealso cref="FileServer.Application.Services.Contract.IServiceQueries{T}" />
+	/// <seealso cref="FileServer.Application.Service.Contract.IServiceQueries{T}" />
 	public interface IServiceOperations<T> : IServiceQueries<T>
 	{
 		/// <summary>

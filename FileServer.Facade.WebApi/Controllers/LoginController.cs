@@ -7,8 +7,8 @@ using System.Web.Http;
 using System.IdentityModel;
 using System.Threading;
 using FileServer.Facade.WebApi.Models;
-using FileServer.Application.Services.Service;
-using FileServer.Application.Services.Contract;
+using FileServer.Application.Service.Service;
+using FileServer.Application.Service.Contract;
 using FileServer.Common.Entities;
 
 namespace FileServer.Facade.WebApi.Controllers

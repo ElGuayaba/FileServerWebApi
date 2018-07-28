@@ -651,9 +651,9 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileServer.Application.Services\FileServer.Application.Services.csproj">
+    <ProjectReference Include="..\FileServer.Application.Services\FileServer.Application.Service.csproj">
       <Project>{9700499f-8e5a-46bf-bd6f-b6aeb580c041}</Project>
-      <Name>FileServer.Application.Services</Name>
+      <Name>FileServer.Application.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileServer.Common.Entities\FileServer.Common.Entities.csproj">
       <Project>{dab107fe-fe4c-4232-b681-cb90ff834ddd}</Project>

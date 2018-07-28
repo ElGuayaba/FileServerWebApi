@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FileServer.Application.Services.Scheduler
+namespace FileServer.Application.Service.Scheduler
 {
 	public class Scheduler
 	{
