@@ -2,8 +2,7 @@ Este proyecto corresponde a la solución parcial del problema planteado para el 
 
 Para compilarlo, basta con descargar el repositorio y seguir los siguientes pasos:
 	1. En la carpeta FileServer.Common.Layer abrir el archivo de configuración
-		app.config y especificar la ruta donde desea guardar los datos en la
-		variable de configuración de nombre FilePath
+		app.config y especificar la ruta donde desea guardar los datos y logs
 	2. Abrir el archivo .sln con Visual Studio (2017 de preferencia)
 	3. Compilar
 	4. Hacer click en Iniciar IIS
