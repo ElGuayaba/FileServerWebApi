@@ -104,7 +104,7 @@ namespace FileServer.Application.Service.Service
 		/// Removes the specified identifier from the storage entity.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
-		/// <returns></returns>
+		/// <returns>A boolean true if successful, false otherwise</returns>
 		public bool Remove(Guid id)
 		{
 			try
@@ -119,10 +119,10 @@ namespace FileServer.Application.Service.Service
 		}
 
 		/// <summary>
-		/// Updates the specified companyPolicy.
+		/// Updates the specified CompanyPolicy object in the database.
 		/// </summary>
-		/// <param name="companyPolicy">The companyPolicy.</param>
-		/// <returns></returns>
+		/// <param name="companyPolicy">The companyPolicy object.</param>
+		/// <returns>The CompanyPolicy object updated, null if unsuccessful</returns>
 		public CompanyPolicy Update(CompanyPolicy companyPolicy)
 		{
 			try
@@ -135,6 +135,10 @@ namespace FileServer.Application.Service.Service
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
+		/// <summary>
+		/// Clears the storage entity.
+		/// </summary>
+		/// <exception cref="VuelingException"></exception>
 		public void Clear()
 		{
 			try

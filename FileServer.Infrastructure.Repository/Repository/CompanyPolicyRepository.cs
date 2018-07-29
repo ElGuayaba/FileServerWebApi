@@ -123,6 +123,9 @@ namespace FileServer.Infrastructure.Repository.Repository
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
+			}catch (ArgumentNullException ex)
+			{
+				throw new VuelingException(Resources.GetError, ex);
 			}
 		}
 

@@ -84,7 +84,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// <param name="name">The identifier.</param>
 		/// <returns>OK if successful, NotFound otherwise.</returns>
 		[Authorize(Roles = "admin, user")]
-		[Route("/api/GetByName")]
+		[Route("api/GetByName")]
 		public IHttpActionResult Get(string name)
 		{
 			try

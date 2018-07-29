@@ -10,28 +10,45 @@ using FileServer.Facade.WebApi.Models;
 using FileServer.Application.Service.Service;
 using FileServer.Application.Service.Contract;
 using FileServer.Common.Entities;
+using FileServer.Application.Services.Contract;
+using FileServer.Application.Services.Service;
+using FileServer.Common.Layer;
 
 namespace FileServer.Facade.WebApi.Controllers
-{    
+{
+	/// <summary>
+	/// Controller in charge of managing login operations.
+	/// </summary>
+	/// <seealso cref="System.Web.Http.ApiController" />
 	[AllowAnonymous]
 	[RoutePrefix("api/login")]
 	public class LoginController : ApiController
 	{
-		IServiceOperations<CompanyClient> iService = new CompanyClientService();
+		/// <summary>
+		/// The authentication service
+		/// </summary>
+		IAuthenticate iService;
 
-		public LoginController() : this(new CompanyClientService())
+		/// <summary>
+		/// Initializes a new instance of the <see cref="LoginController"/> class.
+		/// </summary>
+		public LoginController() : this(new AuthenticationService())
 		{
 
 		}
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ClientsController"/> class.
+		/// Initializes a new instance of the <see cref="LoginController" /> class.
 		/// </summary>
 		/// <param name="companyClientService">The company client service.</param>
-		public LoginController(CompanyClientService companyClientService)
+		public LoginController(AuthenticationService companyClientService)
 		{
 			this.iService = companyClientService;
 		}
 
+		/// <summary>
+		/// Sends a ping to the web service to check if it's online.
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("echoping")]
 		public IHttpActionResult EchoPing()
@@ -39,36 +56,35 @@ namespace FileServer.Facade.WebApi.Controllers
 			return Ok(true);
 		}
 
-		[HttpGet]
-		[Route("echouser")]
-		public IHttpActionResult EchoUser()
-		{
-			var identity = Thread.CurrentPrincipal.Identity;
-			return Ok($" IPrincipal-user: {identity.Name} - IsAuthenticated: {identity.IsAuthenticated}");
-		}
-
+		/// <summary>
+		/// Authenticates the user based on its ID.
+		/// </summary>
+		/// <param name="login">The login.</param>
+		/// <returns>A token if successful, InternalServerError if not, 
+		/// BadRequest in any other cases.
+		/// </returns>
 		[HttpPost]
 		[Route("authenticate")]
 		public IHttpActionResult Authenticate(LoginRequest login)
 		{
 			if (login == null)
 				return BadRequest();
-
-			//Llamar al servicio de autenticación
-			//vvv---meter toda esta lógica allí---vvv
-			CompanyClient user = iService.GetByID(login.UserId).FirstOrDefault();
-			if (user == null)
-				return BadRequest();
-			
-			bool isCredentialValid = (user.Role.Equals("admin") || user.Role.Equals("user"));
-			if (isCredentialValid)
+			try
 			{
-				var token = TokenGenerator.GenerateTokenJwt(user.Name, user.Email, user.Role);
-				return Ok(token);
+				CompanyClient user = iService.Authenticate(login.UserId);
+				if (user != null)
+				{
+					var token = TokenGenerator.GenerateTokenJwt(user.Name, user.Email, user.Role);
+					return Ok(token);
+				}
+				else
+				{
+					return Unauthorized();
+				}
 			}
-			else
+			catch (VuelingException)
 			{
-				return Unauthorized();
+				return InternalServerError();
 			}
 		}
 	}

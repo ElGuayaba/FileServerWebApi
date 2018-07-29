@@ -1,6 +1,7 @@
 ﻿using FileServer.Application.Service.Contract;
 using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
+using FileServer.Common.Layer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,37 @@ using System.Web.Http.Description;
 
 namespace FileServer.Facade.WebApi.Controllers
 {
+	/// <summary>
+	/// Controller in charge of handling policy-related petitions
+	/// </summary>
+	/// <seealso cref="System.Web.Http.ApiController" />
 	[Authorize]
 	public class PoliciesController : ApiController
     {
+		/// <summary>
+		/// The service that will perform operations
+		/// </summary>
 		public readonly ICompanyPolicyService iService = new CompanyPolicyService();
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PoliciesController"/> class.
+		/// </summary>
 		public PoliciesController() : this(new CompanyPolicyService())
 		{
 
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PoliciesController"/> class.
+		/// </summary>
+		/// <param name="CompanyPolicyService">The company policy service.</param>
 		public PoliciesController(CompanyPolicyService CompanyPolicyService)
 		{
 			this.iService = CompanyPolicyService;
 		}
 		// GET: api/CompanyPolicy
+		/// <summary>
+		/// Gets all policies.
+		/// </summary>
+		/// <returns>A set of policies as a queryable object</returns>
 		[Authorize(Roles = "admin")]
 		public IQueryable<CompanyPolicy> Get()
 		{
@@ -39,6 +58,11 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// GET: api/CompanyPolicy/5
+		/// <summary>
+		/// Gets a policy based on a specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>A policy if successful, NotFound otherwise</returns>
 		[Authorize(Roles = "admin")]
 		public IHttpActionResult Get(Guid id)
 		{
@@ -54,8 +78,13 @@ namespace FileServer.Facade.WebApi.Controllers
 		}
 
 		// GET: api/CompanyPolicy/5
+		/// <summary>
+		/// Gets the client associated to a policy number.
+		/// </summary>
+		/// <param name="policyId">The policy identifier.</param>
+		/// <returns>A policy if successful, NotFound otherise</returns>
 		[Authorize(Roles = "admin")]
-		[Route("/api/GetClient")]
+		[Route("api/GetClient")]
 		public IHttpActionResult GetClient(Guid policyId)
 		{
 			try
@@ -63,16 +92,23 @@ namespace FileServer.Facade.WebApi.Controllers
 				CompanyClient companyClient = iService.GetClient(policyId);
 				return Ok(companyClient);
 			}
-			catch (InvalidOperationException)
+			catch (VuelingException)
 			{
 				return NotFound();
 			}
 		}
 
 		// POST: api/CompanyPolicy
+		/// <summary>
+		/// Posts the specified company policy to he database.
+		/// </summary>
+		/// <param name="CompanyPolicy">The company policy.</param>
+		/// <returns>
+		/// The route of creation
+		/// </returns>
 		[ResponseType(typeof(CompanyPolicy))]
 		[Authorize(Roles = "admin")]
-		public IHttpActionResult Post(CompanyPolicy CompanyPolicy)
+		public IHttpActionResult Post(CompanyPolicy companyPolicy)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -81,18 +117,27 @@ namespace FileServer.Facade.WebApi.Controllers
 			try
 			{
 				CompanyPolicy CompanyPolicyInserted =
-						iService.Add(CompanyPolicy);
+						iService.Add(companyPolicy);
 			}
-			catch (Exception)
+			catch (VuelingException)
 			{
-				throw;
+				throw new HttpResponseException(HttpStatusCode.InternalServerError);
 			}
 
 			return CreatedAtRoute("DefaultApi",
-				new { id = CompanyPolicy.Id }, CompanyPolicy);
+				new { id = companyPolicy.Id }, companyPolicy);
 		}
 
 		// PUT: api/CompanyPolicy/5
+		/// <summary>
+		/// Updates the specified identifier on the storage entity.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="CompanyPolicy">The company policy object.</param>
+		/// <returns>
+		/// NoContent if successful, NotFound if the identifier is not listed,
+		///  BadRequest in any other cases.
+		/// </returns>
 		[Authorize(Roles = "admin")]
 		public IHttpActionResult Put(Guid id, CompanyPolicy CompanyPolicy)
 		{
@@ -116,14 +161,22 @@ namespace FileServer.Facade.WebApi.Controllers
 					return StatusCode(HttpStatusCode.NoContent);
 				}
 			}
-			catch (Exception)
+			catch (VuelingException)
 			{
 
-				throw;
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
 		}
 
 		// DELETE: api/CompanyPolicy/5
+		/// <summary>
+		/// Deletes an entry based on the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>
+		/// OK if successful, NotFound if the identifier is not listed,
+		/// BadRequest in any other cases.
+		/// </returns>
 		[Authorize(Roles = "admin")]
 		public IHttpActionResult Delete(Guid id)
 		{
@@ -131,14 +184,17 @@ namespace FileServer.Facade.WebApi.Controllers
 			try
 			{
 				CompanyPolicy = iService.GetByID(id).First();
+				iService.Remove(CompanyPolicy.Id);
+				return Ok(CompanyPolicy);
 			}
 			catch (InvalidOperationException)
 			{
 				return NotFound();
 			}
-			//Manejar la otra excepción
-			iService.Remove(CompanyPolicy.Id);
-			return Ok(CompanyPolicy);
+			catch (VuelingException)
+			{
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
+			}
 		}
 	}
 }

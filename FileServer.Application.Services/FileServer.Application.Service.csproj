@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contract\IAuthenticate.cs" />
     <Compile Include="Contract\ICompanyClientService.cs" />
     <Compile Include="Contract\ICompanyPolicyService.cs" />
     <Compile Include="Contract\IServiceOperations.cs" />
     <Compile Include="Contract\IServiceQueries.cs" />
+    <Compile Include="Service\AuthenticationService.cs" />
     <Compile Include="Service\HttpPolicyService.cs" />
     <Compile Include="Service\HttpClientService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
