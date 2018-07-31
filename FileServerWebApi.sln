@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Common.Entities"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Common.Layer", "FileServer.Common.Layer\FileServer.Common.Layer.csproj", "{8F4E6E7A-2594-42F4-82DA-0A7FDA513EE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServer.Facade.WebApi.Tests", "FileServer.Facade.WebApi.Tests\FileServer.Facade.WebApi.Tests.csproj", "{DD7A5935-B0C5-4998-8A13-B70342569514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{8F4E6E7A-2594-42F4-82DA-0A7FDA513EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F4E6E7A-2594-42F4-82DA-0A7FDA513EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F4E6E7A-2594-42F4-82DA-0A7FDA513EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD7A5935-B0C5-4998-8A13-B70342569514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD7A5935-B0C5-4998-8A13-B70342569514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD7A5935-B0C5-4998-8A13-B70342569514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD7A5935-B0C5-4998-8A13-B70342569514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{2C2B2AB9-C06B-47C7-9AB6-689C4402387A} = {5B78AC52-0720-4B4D-AAE0-5D23E090FAB6}
 		{DAB107FE-FE4C-4232-B681-CB90FF834DDD} = {D7E6FA56-C73B-438C-BFC9-2B495BFB957E}
 		{8F4E6E7A-2594-42F4-82DA-0A7FDA513EE5} = {D7E6FA56-C73B-438C-BFC9-2B495BFB957E}
+		{DD7A5935-B0C5-4998-8A13-B70342569514} = {5B78AC52-0720-4B4D-AAE0-5D23E090FAB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2DA9FEDE-02B5-479F-BC5C-2CFE5365E114}
