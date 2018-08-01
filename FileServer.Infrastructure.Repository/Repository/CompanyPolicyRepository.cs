@@ -83,12 +83,13 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// The result from the query by ID.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public List<CompanyPolicy> GetByID(Guid id)
+		public CompanyPolicy GetByID(Guid id)
 		{
 			try
 			{
 				var data = fm.RetrieveData();
-				return Json<CompanyPolicy>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
+				var result = Json<CompanyPolicy>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
+				return result.FirstOrDefault();
 			}
 			catch (VuelingException ex)
 			{
@@ -115,7 +116,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 				var data = fm.RetrieveData();
 				policy = Json<CompanyPolicy>.DeserializeObject(data).Where(pol => pol.Id.Equals(policyId))
 					.ToList().FirstOrDefault();
-				client = repo.GetByID(policy.ClientId).FirstOrDefault();
+				client = repo.GetByID(policy.ClientId);
 
 				return client;
 			}

@@ -40,5 +40,14 @@ namespace FileServer.Infrastructure.Repository.Properties {
                 return ((string)(this["PolicyFile"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.99.100:6379")]
+        public string ConnectionAddress {
+            get {
+                return ((string)(this["ConnectionAddress"]));
+            }
+        }
     }
 }

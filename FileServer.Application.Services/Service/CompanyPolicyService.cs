@@ -69,7 +69,7 @@ namespace FileServer.Application.Service.Service
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
-		public List<CompanyPolicy> GetByID(Guid id)
+		public CompanyPolicy GetByID(Guid id)
 		{
 			try
 			{

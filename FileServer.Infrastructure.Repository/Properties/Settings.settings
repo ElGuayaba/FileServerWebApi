@@ -8,5 +8,8 @@
     <Setting Name="PolicyFile" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Policies.json</Value>
     </Setting>
+    <Setting Name="ConnectionAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">192.168.99.100:6379</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

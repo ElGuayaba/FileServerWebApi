@@ -14,11 +14,8 @@ namespace FileServer.Application.Service.Workflow
 		public static CompanyClient Init(Guid id)
 		{
 			CompanyClientService authService = new CompanyClientService();
-			List<CompanyClient> result = authService.GetByID(id);
-			if (result.Count > 0)
-				return result.First();
-			else
-				return null;
+			CompanyClient result = authService.GetByID(id);
+			return result;
 		}
 
 		public static void TestMethod()

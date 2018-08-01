@@ -76,7 +76,7 @@ namespace FileServer.Application.Service.Service
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
 		/// <exception cref="VuelingException"></exception>
-		public List<CompanyClient> GetByID(Guid id)
+		public CompanyClient GetByID(Guid id)
 		{
 			try
 			{

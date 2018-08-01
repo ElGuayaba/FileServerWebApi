@@ -68,7 +68,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		{
 			try
 			{
-				CompanyClient CompanyClient = iService.GetByID(id).First();
+				CompanyClient CompanyClient = iService.GetByID(id);
 				return Ok(CompanyClient);
 			}
 			catch (VuelingException)
@@ -185,7 +185,7 @@ namespace FileServer.Facade.WebApi.Controllers
 			CompanyClient CompanyClient;
 			try
 			{
-				CompanyClient = iService.GetByID(id).First();
+				CompanyClient = iService.GetByID(id);
 				iService.Remove(CompanyClient.Id);
 				return Ok(CompanyClient);
 			}

@@ -4,6 +4,8 @@ using System.Linq;
 using FileServer.Infrastructure.Repository.Contract;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 
 namespace FileServer.Infrastructure.Repository.Repository
 {
@@ -13,43 +15,37 @@ namespace FileServer.Infrastructure.Repository.Repository
 	/// <seealso cref="FileServer.Infrastructure.Repository.Contract.IRepositoryOperations{FileServer.Common.Entities.CompanyClient}" />
 	public class CompanyClientRepository : ICompanyClientRepository
 	{
-		/// <summary>
-		/// The filemanager
-		/// </summary>
-		private FileManager fm;
+		private const string HashId = "Clients";
+		IRedisClientsManager Manager;
+		IRedisTypedClient<CompanyClient> redisClient;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyClientRepository"/> class.
 		/// </summary>
-		public CompanyClientRepository()
+		public CompanyClientRepository(RedisManagerPool redisClient)
 		{
-			fm = new FileManager(Properties.Settings.Default.ClientsFile);
-			fm.CreateFile();
+			Manager = redisClient;
+			this.redisClient = Manager.GetClient().As<CompanyClient>();
+		}
+
+		public CompanyClientRepository() : this(new RedisManagerPool(Properties.Settings.Default.ConnectionAddress))
+		{
 		}
 
 		/// <summary>
-		/// Adds the specified Alumno object.
+		/// Adds the specified CompanyClient object.
 		/// </summary>
-		/// <param name="companyClient">Alumno object to be added.</param>
+		/// <param name="companyClient">CompanyClient object to be added.</param>
 		/// <returns>The object added if successful, null otherwise</returns>
 		/// <exception cref="VuelingException"></exception>
 		public CompanyClient Add(CompanyClient companyClient)
 		{
-			List<CompanyClient> jsonNodes;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyClient>.DeserializeObject(data);
-				if (jsonNodes == null)
-				{
-					jsonNodes = new List<CompanyClient>();
-				}
-				jsonNodes.Add(companyClient);
-
-				var resultJSONList = Json<CompanyClient>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-				return Json<CompanyClient>.DeserializeObject(fm.RetrieveData()).Last();
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				redisClient.SetEntryInHashIfNotExists(Hash, companyClient.Id, companyClient);
+				return redisClient.GetFromHash(companyClient.Id);
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.DeleteError, ex);
@@ -67,10 +63,10 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				var data = fm.RetrieveData();
-				return Json<CompanyClient>.DeserializeObject(data);
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				return redisClient.GetHashValues(Hash);
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
@@ -85,14 +81,19 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// The result from the query by ID.
 		/// </returns>
 		/// <exception cref="VuelingException"></exception>
-		public List<CompanyClient> GetByID(Guid id)
+		public CompanyClient GetByID(Guid id)
 		{
 			try
 			{
-				var data = fm.RetrieveData();
-				return Json<CompanyClient>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
+				if (Exists(id))
+				{
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					return redisClient.GetFromHash(id);
+				}
+				else
+					return null;
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
@@ -111,10 +112,15 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				var data = fm.RetrieveData();
-				return Json<CompanyClient>.DeserializeObject(data).Where(alu => alu.Name.Equals(name)).ToList();
+				var clients = GetAll();
+				return clients.Where(alu => alu.Name.Equals(name)).ToList();
 			}
 			catch (VuelingException ex)
+			{
+				LogManager.LogError();
+				throw new VuelingException(Resources.GetError, ex);
+			}
+			catch (ArgumentNullException ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
@@ -132,21 +138,16 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <exception cref="VuelingException"></exception>
 		public bool Remove(Guid id)
 		{
-			List<CompanyClient> jsonNodes;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyClient>.DeserializeObject(data);
-				if (jsonNodes == null)
+				if (Exists(id))
 				{
-					jsonNodes = new List<CompanyClient>();
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					redisClient.DeleteById(id);
+					return true;
 				}
-				CompanyClient companyClient = jsonNodes.Where<CompanyClient>(alu => alu.Id.Equals(id)).First();
-				jsonNodes.Remove(companyClient);
-
-				var resultJSONList = Json<CompanyClient>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-				return true;
+				else
+					return false;
 			}
 			catch (VuelingException ex)
 			{
@@ -165,43 +166,36 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <exception cref="VuelingException"></exception>
 		public CompanyClient Update(CompanyClient companyClient)
 		{
-			List<CompanyClient> jsonNodes;
-			int index;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyClient>.DeserializeObject(data);
-				if (jsonNodes == null)
+				if (Exists(companyClient.Id))
 				{
-					jsonNodes = new List<CompanyClient>();
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					redisClient.SetEntryInHash(Hash, companyClient.Id, companyClient);
+					return redisClient.GetFromHash(companyClient.Id);
 				}
-				CompanyClient toRemove = jsonNodes.Where<CompanyClient>(alu => alu.Id.Equals(companyClient.Id)).First();
-				index = jsonNodes.IndexOf(toRemove);
-				jsonNodes.Remove(toRemove);
-				jsonNodes.Insert(index, companyClient);
-
-				var resultJSONList = Json<CompanyClient>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-
-				return Json<CompanyClient>.DeserializeObject(fm.RetrieveData())[index];
+				else
+					return null;
 			}
-			catch (InvalidOperationException)
-			{
-				return null;
-			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
 
+		public bool Exists(Guid clientId)
+		{
+			var Hash = redisClient.GetHash<Guid>(HashId);
+			return redisClient.HashContainsEntry(Hash, clientId);
+		}
+
 		public void Clear()
 		{
 			try
 			{
-				fm.DeleteFile();
-				fm.CreateFile();
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				redisClient.DeleteAll();
 			}
 			catch (VuelingException ex)
 			{

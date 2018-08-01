@@ -23,6 +23,6 @@ namespace FileServer.Application.Service.Contract
 		/// <param name="id">The identifier.</param>
 		/// <returns></returns>
 		/// <exception cref="VuelingException"></exception>
-		List<T> GetByID(Guid id);
+		T GetByID(Guid id);
 	}
 }

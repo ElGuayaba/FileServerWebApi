@@ -68,7 +68,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		{
 			try
 			{
-				CompanyPolicy CompanyPolicy = iService.GetByID(id).First();
+				CompanyPolicy CompanyPolicy = iService.GetByID(id);
 				return Ok(CompanyPolicy);
 			}
 			catch (InvalidOperationException)
@@ -183,7 +183,7 @@ namespace FileServer.Facade.WebApi.Controllers
 			CompanyPolicy CompanyPolicy;
 			try
 			{
-				CompanyPolicy = iService.GetByID(id).First();
+				CompanyPolicy = iService.GetByID(id);
 				iService.Remove(CompanyPolicy.Id);
 				return Ok(CompanyPolicy);
 			}
