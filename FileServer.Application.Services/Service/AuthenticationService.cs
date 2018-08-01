@@ -36,7 +36,7 @@ namespace FileServer.Application.Services.Service
 			try
 			{
 				CompanyClient user = iService.GetByID(login);
-				if (user == null)
+				if (user.Equals(null))
 					return null;
 				bool isCredentialValid = (user.Role.Equals("admin") || user.Role.Equals("user"));
 				if (isCredentialValid)

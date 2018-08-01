@@ -1,6 +1,8 @@
 ﻿using FileServer.Common.Entities;
 using FileServer.Common.Layer;
 using FileServer.Infrastructure.Repository.Contract;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +13,20 @@ namespace FileServer.Infrastructure.Repository.Repository
 {
 	public class CompanyPolicyRepository : ICompanyPolicyRepository
 	{
-		/// <summary>
-		/// The filemanager
-		/// </summary>
-		private FileManager fm;
+		private const string HashId = "Policies";
+		IRedisClientsManager Manager;
+		IRedisTypedClient<CompanyPolicy> redisClient;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyPolicyRepository"/> class.
 		/// </summary>
-		public CompanyPolicyRepository()
+		public CompanyPolicyRepository(RedisManagerPool redisClient)
 		{
-			fm = new FileManager(Properties.Settings.Default.PolicyFile);
-			fm.CreateFile();
+			Manager = redisClient;
+			this.redisClient = Manager.GetClient().As<CompanyPolicy>();
+		}
+
+		public CompanyPolicyRepository() : this(new RedisManagerPool(Properties.Settings.Default.ConnectionAddress))
+		{
 		}
 
 		/// <summary>
@@ -32,22 +37,13 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <exception cref="VuelingException"></exception>
 		public CompanyPolicy Add(CompanyPolicy companyPolicy)
 		{
-			List<CompanyPolicy> jsonNodes;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
-				if (jsonNodes == null)
-				{
-					jsonNodes = new List<CompanyPolicy>();
-				}
-				jsonNodes.Add(companyPolicy);
-
-				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-				return Json<CompanyPolicy>.DeserializeObject(fm.RetrieveData()).Last();
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				redisClient.SetEntryInHashIfNotExists(Hash, companyPolicy.Id, companyPolicy);
+				return redisClient.GetFromHash(companyPolicy.Id);
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.DeleteError, ex);
@@ -65,10 +61,10 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				var data = fm.RetrieveData();
-				return Json<CompanyPolicy>.DeserializeObject(data);
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				return redisClient.GetHashValues(Hash);
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
@@ -87,11 +83,15 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				var data = fm.RetrieveData();
-				var result = Json<CompanyPolicy>.DeserializeObject(data).Where(alu => alu.Id.Equals(id)).ToList();
-				return result.FirstOrDefault();
+				if (Exists(id))
+				{
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					return redisClient.GetValueFromHash(Hash,id);
+				}
+				else
+					return null;
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.GetError, ex);
@@ -110,15 +110,17 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				CompanyClientRepository repo = new CompanyClientRepository();
-				CompanyPolicy policy;
-				CompanyClient client;
-				var data = fm.RetrieveData();
-				policy = Json<CompanyPolicy>.DeserializeObject(data).Where(pol => pol.Id.Equals(policyId))
-					.ToList().FirstOrDefault();
-				client = repo.GetByID(policy.ClientId);
+				var repo = new CompanyClientRepository();
+				var policies = GetAll();
+				var result = policies.Where(pol => pol.Id.Equals(policyId)).ToList();
+				CompanyPolicy policy = result.FirstOrDefault();
+				if (policy != null)
+				{
+					return repo.GetByID(policy.ClientId);
+				}
+				else
+					return null;
 
-				return client;
 			}
 			catch (VuelingException ex)
 			{
@@ -141,21 +143,16 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <exception cref="VuelingException"></exception>
 		public bool Remove(Guid id)
 		{
-			List<CompanyPolicy> jsonNodes;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
-				if (jsonNodes == null)
+				if (Exists(id))
 				{
-					jsonNodes = new List<CompanyPolicy>();
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					redisClient.DeleteById(id);
+					return true;
 				}
-				CompanyPolicy companyPolicy = jsonNodes.Where<CompanyPolicy>(alu => alu.Id.Equals(id)).First();
-				jsonNodes.Remove(companyPolicy);
-
-				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-				return true;
+				else
+					return false;
 			}
 			catch (VuelingException ex)
 			{
@@ -174,44 +171,36 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <exception cref="VuelingException"></exception>
 		public CompanyPolicy Update(CompanyPolicy companyPolicy)
 		{
-			List<CompanyPolicy> jsonNodes;
-			int index;
 			try
 			{
-				var data = fm.RetrieveData();
-				jsonNodes = Json<CompanyPolicy>.DeserializeObject(data);
-				if (jsonNodes == null)
+				if (Exists(companyPolicy.Id))
 				{
-					jsonNodes = new List<CompanyPolicy>();
+					var Hash = redisClient.GetHash<Guid>(HashId);
+					redisClient.SetEntryInHash(Hash, companyPolicy.Id, companyPolicy);
+					return redisClient.GetFromHash(companyPolicy.Id);
 				}
-				CompanyPolicy toRemove = jsonNodes.Where<CompanyPolicy>(alu => alu.Id.Equals(companyPolicy.Id)).First();
-				index = jsonNodes.IndexOf(toRemove);
-				jsonNodes.Remove(toRemove);
-				jsonNodes.Insert(index, companyPolicy);
-
-				var resultJSONList = Json<CompanyPolicy>.SerializeIndented(jsonNodes);
-				fm.WriteToFile(resultJSONList);
-
-				return Json<CompanyPolicy>.DeserializeObject(fm.RetrieveData())[index];
+				else
+					return null;
 			}
-			catch (InvalidOperationException)
-			{
-				LogManager.LogError();
-				return null;
-			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.UpdateError, ex);
 			}
 		}
 
+		public bool Exists(Guid clientId)
+		{
+			var Hash = redisClient.GetHash<Guid>(HashId);
+			return redisClient.HashContainsEntry(Hash, clientId);
+		}
+
 		public void Clear()
 		{
 			try
 			{
-				fm.DeleteFile();
-				fm.CreateFile();
+				var Hash = redisClient.GetHash<Guid>(HashId);
+				redisClient.DeleteAll();
 			}
 			catch (VuelingException ex)
 			{

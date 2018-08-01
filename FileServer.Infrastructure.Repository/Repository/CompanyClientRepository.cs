@@ -10,7 +10,7 @@ using ServiceStack.Redis.Generic;
 namespace FileServer.Infrastructure.Repository.Repository
 {
 	/// <summary>
-	/// Repository class for Alumno objects.
+	/// Repository class for CompanyClient objects.
 	/// </summary>
 	/// <seealso cref="FileServer.Infrastructure.Repository.Contract.IRepositoryOperations{FileServer.Common.Entities.CompanyClient}" />
 	public class CompanyClientRepository : ICompanyClientRepository
@@ -88,7 +88,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 				if (Exists(id))
 				{
 					var Hash = redisClient.GetHash<Guid>(HashId);
-					return redisClient.GetFromHash(id);
+					return redisClient.GetValueFromHash(Hash,id);
 				}
 				else
 					return null;
@@ -197,7 +197,7 @@ namespace FileServer.Infrastructure.Repository.Repository
 				var Hash = redisClient.GetHash<Guid>(HashId);
 				redisClient.DeleteAll();
 			}
-			catch (VuelingException ex)
+			catch (Exception ex)
 			{
 				LogManager.LogError();
 				throw new VuelingException(Resources.ClearError, ex);

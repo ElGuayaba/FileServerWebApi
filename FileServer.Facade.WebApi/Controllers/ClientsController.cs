@@ -16,7 +16,7 @@ namespace FileServer.Facade.WebApi.Controllers
 	/// Controller in charge of managing access to the client database.
 	/// </summary>
 	/// <seealso cref="System.Web.Http.ApiController" />
-	[Authorize]
+	//[Authorize]
 	public class ClientsController : ApiController
     {
 		/// <summary>
@@ -44,7 +44,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// </summary>
 		/// <returns>A set of clients as a queriable object</returns>
 		/// <exception cref="HttpResponseException"></exception>
-		[Authorize(Roles = "admin")]
+		//[Authorize(Roles = "admin")]
 		public IQueryable<CompanyClient> Get()
 		{
 			try
@@ -63,7 +63,7 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <returns>OK if successful, NotFound otherwise.</returns>
-		[Authorize(Roles = "admin, user")]
+		//[Authorize(Roles = "admin, user")]
 		public IHttpActionResult Get(Guid id)
 		{
 			try
