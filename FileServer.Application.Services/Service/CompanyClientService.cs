@@ -18,18 +18,13 @@ namespace FileServer.Application.Service.Service
 		/// Generic repository.
 		/// </summary>
 		private readonly ICompanyClientRepository iRepository;
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompanyClientService"/> class.
-		/// </summary>
-		public CompanyClientService() : this(new CompanyClientRepository())
-		{
 
-		}
+		//}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyClientService"/> class.
 		/// </summary>
 		/// <param name="companyClientRepository">The companyClient repository.</param>
-		public CompanyClientService(CompanyClientRepository companyClientRepository)
+		public CompanyClientService(ICompanyClientRepository companyClientRepository)
 		{
 			this.iRepository = companyClientRepository;
 		}

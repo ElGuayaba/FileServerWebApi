@@ -13,7 +13,8 @@ namespace FileServer.Application.Service.Scheduler
 	{
 		public void Refresh()
 		{
-			CompanyClientWorkflow.Refresh();
+			//CompanyClientWorkflow clientWorkflow = new CompanyClientWorkflow();
+			//clientWorkflow.Refresh();
 			CompanyPolicyWorkflow.Refresh();
 		}
 		public Task Execute(IJobExecutionContext context)

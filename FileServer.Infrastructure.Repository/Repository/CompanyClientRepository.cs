@@ -21,15 +21,15 @@ namespace FileServer.Infrastructure.Repository.Repository
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyClientRepository"/> class.
 		/// </summary>
-		public CompanyClientRepository(RedisManagerPool redisClient)
+		public CompanyClientRepository(IRedisClientsManager manager)
 		{
-			Manager = redisClient;
-			this.redisClient = Manager.GetClient().As<CompanyClient>();
+			this.Manager = manager;
+			this.redisClient = manager.GetClient().As<CompanyClient>();
 		}
 
-		public CompanyClientRepository() : this(new RedisManagerPool(Properties.Settings.Default.ConnectionAddress))
-		{
-		}
+		//public CompanyClientRepository() : this(new RedisManagerPool(Properties.Settings.Default.ConnectionAddress))
+		//{
+		//}
 
 		/// <summary>
 		/// Adds the specified CompanyClient object.

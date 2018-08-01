@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Quartz, Version=3.0.6.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.3.0.6\lib\net452\Quartz.dll</HintPath>
     </Reference>
@@ -54,6 +57,8 @@
     <Compile Include="Contract\ICompanyPolicyService.cs" />
     <Compile Include="Contract\IServiceOperations.cs" />
     <Compile Include="Contract\IServiceQueries.cs" />
+    <Compile Include="Contract\IWorkflow.cs" />
+    <Compile Include="Module\ServiceModule.cs" />
     <Compile Include="Service\AuthenticationService.cs" />
     <Compile Include="Service\HttpPolicyService.cs" />
     <Compile Include="Service\HttpClientService.cs" />
@@ -74,7 +79,6 @@
     <Compile Include="Service\CompanyPolicyService.cs" />
     <Compile Include="Workflow\CompanyPolicyWorkflow.cs" />
     <Compile Include="Workflow\CompanyClientWorkflow.cs" />
-    <Compile Include="Workflow\LoginWorkflow.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

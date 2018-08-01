@@ -22,19 +22,14 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// <summary>
 		/// The service that will perform operations
 		/// </summary>
-		public readonly ICompanyPolicyService iService = new CompanyPolicyService();
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PoliciesController"/> class.
-		/// </summary>
-		public PoliciesController() : this(new CompanyPolicyService())
-		{
+		public readonly ICompanyPolicyService iService;
 
-		}
+		//}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PoliciesController"/> class.
 		/// </summary>
 		/// <param name="CompanyPolicyService">The company policy service.</param>
-		public PoliciesController(CompanyPolicyService CompanyPolicyService)
+		public PoliciesController(ICompanyPolicyService CompanyPolicyService)
 		{
 			this.iService = CompanyPolicyService;
 		}

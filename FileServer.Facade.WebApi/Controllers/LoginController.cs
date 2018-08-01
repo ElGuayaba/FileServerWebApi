@@ -10,8 +10,6 @@ using FileServer.Facade.WebApi.Models;
 using FileServer.Application.Service.Service;
 using FileServer.Application.Service.Contract;
 using FileServer.Common.Entities;
-using FileServer.Application.Services.Contract;
-using FileServer.Application.Services.Service;
 using FileServer.Common.Layer;
 
 namespace FileServer.Facade.WebApi.Controllers
@@ -32,15 +30,15 @@ namespace FileServer.Facade.WebApi.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LoginController"/> class.
 		/// </summary>
-		public LoginController() : this(new AuthenticationService())
-		{
+		//public LoginController() : this(new AuthenticationService())
+		//{
 
-		}
+		//}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="LoginController" /> class.
 		/// </summary>
 		/// <param name="companyClientService">The company client service.</param>
-		public LoginController(AuthenticationService companyClientService)
+		public LoginController(IAuthenticate companyClientService)
 		{
 			this.iService = companyClientService;
 		}

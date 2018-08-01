@@ -14,18 +14,13 @@ namespace FileServer.Application.Service.Service
 		/// Generic repository.
 		/// </summary>
 		private readonly ICompanyPolicyRepository iRepository;
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CompanyPolicyService"/> class.
-		/// </summary>
-		public CompanyPolicyService() : this(new CompanyPolicyRepository())
-		{
 
-		}
+		//}
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyPolicyService"/> class.
 		/// </summary>
 		/// <param name="companyPolicyRepository">The companyPolicy repository.</param>
-		public CompanyPolicyService(CompanyPolicyRepository companyPolicyRepository)
+		public CompanyPolicyService(ICompanyPolicyRepository companyPolicyRepository)
 		{
 			this.iRepository = companyPolicyRepository;
 		}

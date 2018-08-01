@@ -1,4 +1,5 @@
-﻿using FileServer.Application.Service.Service;
+﻿using FileServer.Application.Service.Contract;
+using FileServer.Application.Service.Service;
 using FileServer.Common.Entities;
 using FileServer.Common.Layer;
 using System.Linq;
@@ -10,6 +11,13 @@ namespace FileServer.Application.Service.Workflow
 	/// </summary>
 	public class CompanyPolicyWorkflow
 	{
+		private static ICompanyPolicyService iService;
+
+		public CompanyPolicyWorkflow(ICompanyPolicyService service)
+		{
+			iService = service;
+		}
+
 		/// <summary>
 		/// Initializes this instance.
 		/// </summary>
@@ -20,10 +28,9 @@ namespace FileServer.Application.Service.Workflow
 			try
 			{
 				var policies = HttpPolicyService.GetCall();
-				CompanyPolicyService service = new CompanyPolicyService();
 				foreach (CompanyPolicy policy in policies)
 				{
-					service.Add(policy);
+					iService.Add(policy);
 				}
 				return true;
 			}
@@ -39,16 +46,15 @@ namespace FileServer.Application.Service.Workflow
 			try
 			{
 				var policies = HttpPolicyService.GetCall();
-				var service = new CompanyPolicyService();
-				var stored = service.GetAll();
+				var stored = iService.GetAll();
 				bool hasChanged = !policies.SequenceEqual(stored);
 				if (hasChanged)
 				{
 					LogManager.LogDebug();
-					service.Clear();
+					iService.Clear();
 					foreach (CompanyPolicy policy in policies)
 					{
-						service.Add(policy);
+						iService.Add(policy);
 					}
 				}
 				return true;

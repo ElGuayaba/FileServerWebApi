@@ -16,17 +16,15 @@ namespace FileServer.Infrastructure.Repository.Repository
 		private const string HashId = "Policies";
 		IRedisClientsManager Manager;
 		IRedisTypedClient<CompanyPolicy> redisClient;
+		ICompanyClientRepository clientRepo;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CompanyPolicyRepository"/> class.
 		/// </summary>
-		public CompanyPolicyRepository(RedisManagerPool redisClient)
+		public CompanyPolicyRepository(IRedisClientsManager redisClient, ICompanyClientRepository repo)
 		{
-			Manager = redisClient;
+			this.Manager = redisClient;
 			this.redisClient = Manager.GetClient().As<CompanyPolicy>();
-		}
-
-		public CompanyPolicyRepository() : this(new RedisManagerPool(Properties.Settings.Default.ConnectionAddress))
-		{
+			this.clientRepo = repo;
 		}
 
 		/// <summary>
@@ -110,13 +108,12 @@ namespace FileServer.Infrastructure.Repository.Repository
 		{
 			try
 			{
-				var repo = new CompanyClientRepository();
 				var policies = GetAll();
 				var result = policies.Where(pol => pol.Id.Equals(policyId)).ToList();
 				CompanyPolicy policy = result.FirstOrDefault();
 				if (policy != null)
 				{
-					return repo.GetByID(policy.ClientId);
+					return clientRepo.GetByID(policy.ClientId);
 				}
 				else
 					return null;
